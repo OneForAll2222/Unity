@@ -18,6 +18,7 @@ import { useUser } from "@/providers/UserProvider";
 import { PremiumGate } from "@/components/PremiumGate";
 
 const { width } = Dimensions.get("window");
+const cardWidth = (width - 60) / 2; // Account for padding and margin
 
 export default function LearningScreen() {
   const { isPremium } = useUser();
@@ -56,46 +57,48 @@ export default function LearningScreen() {
           scrollEventThrottle={16}
           removeClippedSubviews={Platform.OS === 'android'}
         >
-          {learningCategories.map((category) => {
-            const Icon = category.icon;
-            return (
-              <TouchableOpacity
-                key={category.id}
-                style={styles.categoryCard}
-                onPress={() => handleCategoryPress(category.id)}
-                activeOpacity={0.9}
-              >
-                <LinearGradient
-                  colors={category.gradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.cardGradient}
+          <View style={styles.grid}>
+            {learningCategories.map((category) => {
+              const Icon = category.icon;
+              return (
+                <TouchableOpacity
+                  key={category.id}
+                  style={styles.categoryCard}
+                  onPress={() => handleCategoryPress(category.id)}
+                  activeOpacity={0.9}
                 >
-                  <View style={styles.cardContent}>
-                    <View style={styles.iconContainer}>
-                      <Icon size={28} color="#fff" />
-                    </View>
-                    <View style={styles.textContent}>
-                      <View style={styles.categoryTitleContainer}>
-                        <Text style={styles.categoryTitle}>{category.title}</Text>
-                        {!isPremium && <Lock size={16} color="rgba(255, 255, 255, 0.8)" />}
+                  <LinearGradient
+                    colors={category.gradient}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.cardGradient}
+                  >
+                    <View style={styles.cardContent}>
+                      <View style={styles.iconContainer}>
+                        <Icon size={28} color="#fff" />
                       </View>
-                      <Text style={styles.categoryDescription}>
-                        {category.description}
-                        {!isPremium && ' (Premium)'}
-                      </Text>
-                      <View style={styles.statsContainer}>
-                        <Text style={styles.lessonCount}>
-                          {category.lessonCount} Lessons
+                      <View style={styles.textContent}>
+                        <View style={styles.categoryTitleContainer}>
+                          <Text style={styles.categoryTitle}>{category.title}</Text>
+                          {!isPremium && <Lock size={16} color="rgba(255, 255, 255, 0.8)" />}
+                        </View>
+                        <Text style={styles.categoryDescription}>
+                          {category.description}
+                          {!isPremium && ' (Premium)'}
                         </Text>
-                        <Text style={styles.duration}>{category.duration}</Text>
+                        <View style={styles.statsContainer}>
+                          <Text style={styles.lessonCount}>
+                            {category.lessonCount} Lessons
+                          </Text>
+                          <Text style={styles.duration}>{category.duration}</Text>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            );
-          })}
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </ScrollView>
         
         <PremiumGate
@@ -134,8 +137,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 120, // Account for tab bar
   },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
   categoryCard: {
-    marginBottom: 16,
+    width: cardWidth,
+    margin: 10,
     borderRadius: 20,
     overflow: "hidden",
     elevation: 5,
@@ -145,53 +154,59 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   cardGradient: {
-    padding: 20,
+    padding: 16,
+    height: 180,
   },
   cardContent: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
+    justifyContent: "space-between",
+    height: "100%",
   },
   iconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 16,
+    marginBottom: 12,
   },
   textContent: {
     flex: 1,
+    alignItems: "center",
   },
   categoryTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 4,
+    justifyContent: 'center',
+    marginBottom: 6,
   },
   categoryTitle: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#fff",
-    flex: 1,
+    textAlign: "center",
+    marginRight: 4,
   },
   categoryDescription: {
-    fontSize: 14,
+    fontSize: 12,
     color: "rgba(255, 255, 255, 0.9)",
     marginBottom: 8,
-    lineHeight: 18,
+    lineHeight: 16,
+    textAlign: "center",
   },
   statsContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
   },
   lessonCount: {
-    fontSize: 12,
+    fontSize: 11,
     color: "rgba(255, 255, 255, 0.8)",
-    marginRight: 16,
+    marginBottom: 2,
   },
   duration: {
-    fontSize: 12,
+    fontSize: 11,
     color: "rgba(255, 255, 255, 0.8)",
   },
 });
