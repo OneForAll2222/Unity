@@ -32,7 +32,9 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { trpc } from '@/lib/trpc';
 
-const ADMIN_PASSWORD = 'admin123'; // Change this to a secure password
+// For React Native, we'll use a fallback approach since process.env isn't natively available
+// In production, this should be handled by a secure backend validation
+const ADMIN_PASSWORD = process.env.EXPO_PUBLIC_ADMIN_PASSWORD || 'admin123';
 
 interface AnalyticsData {
   totalUsers: number;
