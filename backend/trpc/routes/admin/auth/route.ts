@@ -1,9 +1,12 @@
 import { z } from "zod";
 import { publicProcedure } from "../../../create-context";
 
-// In production, this should be stored in environment variables
-// For now, using a secure default that should be changed
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'SecureAdmin2024!';
+// Admin password must be set via environment variable
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+if (!ADMIN_PASSWORD) {
+  throw new Error('ADMIN_PASSWORD environment variable is required');
+}
 
 export const validateAdminPasswordProcedure = publicProcedure
   .input(z.object({
