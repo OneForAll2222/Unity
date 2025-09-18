@@ -32,9 +32,7 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { trpc } from '@/lib/trpc';
 
-// For React Native, we'll use a fallback approach since process.env isn't natively available
-// In production, this should be handled by a secure backend validation
-const ADMIN_PASSWORD = process.env.EXPO_PUBLIC_ADMIN_PASSWORD || 'admin123';
+// Admin password validation is now handled securely by the backend
 
 interface AnalyticsData {
   totalUsers: number;
@@ -68,6 +66,7 @@ export default function AdminScreen() {
       contactSubmissionsQuery.refetch();
     },
   });
+  const validatePasswordMutation = trpc.admin.validatePassword.useMutation();
   const [analytics, setAnalytics] = useState<AnalyticsData>({
     totalUsers: 1247,
     premiumUsers: 342,
@@ -119,11 +118,13 @@ export default function AdminScreen() {
   };
 
   const handleLogin = async () => {
-    if (password === ADMIN_PASSWORD) {
+    try {
+      await validatePasswordMutation.mutateAsync({ password });
       setIsAuthenticated(true);
       await AsyncStorage.setItem('adminAuthenticated', 'true');
       setPassword('');
-    } else {
+    } catch (error) {
+      console.error('Admin login error:', error);
       Alert.alert('Access Denied', 'Invalid password. Please try again.');
       setPassword('');
     }
@@ -245,12 +246,18 @@ export default function AdminScreen() {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <TouchableOpacity 
+                style={[styles.loginButton, validatePasswordMutation.isPending && styles.loginButtonDisabled]} 
+                onPress={handleLogin}
+                disabled={validatePasswordMutation.isPending}
+              >
                 <LinearGradient
                   colors={['#EF4444', '#DC2626']}
                   style={styles.loginButtonGradient}
                 >
-                  <Text style={styles.loginButtonText}>Access Admin Panel</Text>
+                  <Text style={styles.loginButtonText}>
+                    {validatePasswordMutation.isPending ? 'Validating...' : 'Access Admin Panel'}
+                  </Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -703,5 +710,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     fontStyle: 'italic',
+  },
+  loginButtonDisabled: {
+    opacity: 0.6,
   },
 });

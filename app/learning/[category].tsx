@@ -102,7 +102,7 @@ export default function CategoryScreen() {
                   style={[
                     styles.progressFill,
                     {
-                      width: `${categoryLessons.length ? (completedLessons.length / categoryLessons.length) * 100 : 0}%`,
+                      width: `${categoryLessons.length > 0 ? (completedLessons.length / categoryLessons.length) * 100 : 0}%`,
                     },
                   ]}
                 />
