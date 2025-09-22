@@ -177,16 +177,34 @@ export default function AuthScreen() {
         </LinearGradient>
         <Text style={styles.appTitle}>One for All</Text>
         <Text style={styles.appSubtitle}>
-          Your AI-Powered Professional Assistant Hub
+          Powered by ChatGPT-4 • Your AI Professional Assistant Hub
         </Text>
       </View>
 
       <View style={styles.welcomeContent}>
         <Text style={styles.welcomeTitle}>Welcome!</Text>
-        <Text style={styles.welcomeDescription}>
-          Access expert AI specialists in coding, medicine, music production, and more. 
-          Get professional advice tailored to your needs.
-        </Text>
+        <View style={styles.featuresContainer}>
+          <View style={styles.powerBadge}>
+            <Text style={styles.powerBadgeText}>🤖 Powered by ChatGPT-4</Text>
+          </View>
+          
+          <Text style={styles.welcomeDescription}>
+            Get instant access to AI specialists across multiple fields:
+          </Text>
+          
+          <View style={styles.featuresList}>
+            <Text style={styles.featureItem}>💻 Software Development & Coding</Text>
+            <Text style={styles.featureItem}>🏥 Medical Consultation & Health</Text>
+            <Text style={styles.featureItem}>🎵 Music Production & Audio</Text>
+            <Text style={styles.featureItem}>📚 Learning & Education</Text>
+            <Text style={styles.featureItem}>💼 Business & Professional Advice</Text>
+            <Text style={styles.featureItem}>🎨 Creative & Design Support</Text>
+          </View>
+          
+          <Text style={styles.bottomDescription}>
+            Each specialist is powered by advanced ChatGPT-4 technology, providing expert-level guidance tailored to your specific needs.
+          </Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -644,5 +662,41 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.7)',
     fontWeight: '400',
+  },
+  featuresContainer: {
+    alignItems: 'center',
+  },
+  powerBadge: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  powerBadgeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#fff',
+    textAlign: 'center',
+  },
+  featuresList: {
+    alignItems: 'flex-start',
+    marginBottom: 20,
+  },
+  featureItem: {
+    fontSize: 15,
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginBottom: 8,
+    lineHeight: 20,
+  },
+  bottomDescription: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    textAlign: 'center',
+    lineHeight: 20,
+    fontStyle: 'italic',
+    marginBottom: 30,
   },
 });

@@ -72,7 +72,8 @@ export default function SpecialistsScreen() {
           <View style={styles.headerTop}>
             <View style={styles.headerContent}>
               <Text style={styles.title}>One for All</Text>
-              <Text style={styles.subtitle}>Choose Your AI Specialist</Text>
+              <Text style={styles.subtitle}>Powered by ChatGPT-4</Text>
+              <Text style={styles.description}>Choose Your AI Specialist</Text>
             </View>
             <FreeMessageCounter />
           </View>
@@ -202,6 +203,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   subtitle: {
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.8)",
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  description: {
     fontSize: 18,
     color: "rgba(255, 255, 255, 0.9)",
   },
