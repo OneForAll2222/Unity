@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import createContextHook from "@nkzw/create-context-hook";
 import { Platform } from "react-native";
 import { useUser } from "./UserProvider";
+import { trpcClient } from "@/lib/trpc";
 
 interface GeneratedImage {
   base64Data: string;
@@ -67,25 +68,17 @@ const [AIContextProvider, useAIContext] = createContextHook<AIContextType>(() =>
     try {
       const systemPrompt = getSystemPrompt(specialistId);
       
-      const response = await fetch("https://toolkit.rork.com/text/llm/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: message },
-          ],
-        }),
+      const response = await trpcClient.openai.chat.mutate({
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message },
+        ],
+        model: "gpt-4o", // Using GPT-4o as the latest available model
+        max_tokens: 2000,
+        temperature: 0.7,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to get AI response");
-      }
-
-      const data = await response.json();
-      return data.completion;
+      return response.content;
     } catch (error) {
       console.error("Error sending message:", error);
       throw error;
@@ -100,31 +93,23 @@ const [AIContextProvider, useAIContext] = createContextHook<AIContextType>(() =>
     }
 
     try {
-      const response = await fetch("https://toolkit.rork.com/text/llm/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: "system",
-              content: "You are a expert code reviewer. Analyze the provided code for errors, potential improvements, and best practices. Provide clear, actionable feedback.",
-            },
-            {
-              role: "user",
-              content: `Please analyze this code:\n\n\`\`\`\n${code}\n\`\`\``,
-            },
-          ],
-        }),
+      const response = await trpcClient.openai.chat.mutate({
+        messages: [
+          {
+            role: "system",
+            content: "You are a expert code reviewer. Analyze the provided code for errors, potential improvements, and best practices. Provide clear, actionable feedback.",
+          },
+          {
+            role: "user",
+            content: `Please analyze this code:\n\n\`\`\`\n${code}\n\`\`\``,
+          },
+        ],
+        model: "gpt-4o", // Using GPT-4o for better code analysis
+        max_tokens: 2000,
+        temperature: 0.3, // Lower temperature for more focused code analysis
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to analyze code");
-      }
-
-      const data = await response.json();
-      return data.completion;
+      return response.content;
     } catch (error) {
       console.error("Error analyzing code:", error);
       throw error;

@@ -3,6 +3,7 @@ import { hiProcedure, createPayPalPaymentProcedure, verifyPayPalPaymentProcedure
 import { submitContactProcedure, getContactSubmissionsProcedure, markContactAsReadProcedure } from "./routes/contact/submit/route";
 import { createPaymentIntentProcedure, confirmPaymentProcedure } from "./routes/stripe/create-payment-intent/route";
 import { validateAdminPasswordProcedure } from "./routes/admin/auth/route";
+import { chatProcedure } from "./routes/openai/chat/route";
 
 export const appRouter = createTRPCRouter({
   example: createTRPCRouter({
@@ -23,6 +24,9 @@ export const appRouter = createTRPCRouter({
   }),
   admin: createTRPCRouter({
     validatePassword: validateAdminPasswordProcedure,
+  }),
+  openai: createTRPCRouter({
+    chat: chatProcedure,
   }),
 });
 
