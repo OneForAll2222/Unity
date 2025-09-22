@@ -1,9 +1,18 @@
 import { z } from "zod";
-import { publicProcedure } from "../../../create-context";
+import { publicProcedure } from "@/backend/trpc/create-context";
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-11-20.acacia',
+// Validate Stripe secret key exists
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('STRIPE_SECRET_KEY environment variable is not set');
+}
+
+if (!process.env.STRIPE_SECRET_KEY.startsWith('sk_')) {
+  throw new Error('Invalid Stripe secret key format. Must start with sk_test_ or sk_live_');
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2025-08-27.basil',
 });
 
 export const createPaymentIntentProcedure = publicProcedure
