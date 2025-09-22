@@ -1,7 +1,7 @@
 // App Color Palette - Darker Purple, Baby Blue, Baby Pink
 export const COLORS = {
   // Main gradient colors
-  DARK_PURPLE:'#990497', // Darker purple
+  DARK_PURPLE: '#990497', // Darker purple
   BABY_BLUE: '#18CAD1',   // Baby blue
   BABY_PINK: '#206BC7',   // Baby pink
   
