@@ -141,10 +141,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    gap: 10,
   },
   categoryCard: {
     width: cardWidth,
-    margin: 10,
+    marginBottom: 20,
     borderRadius: 20,
     overflow: "hidden",
     elevation: 5,
