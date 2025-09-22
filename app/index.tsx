@@ -172,7 +172,7 @@ export default function AuthScreen() {
     <View style={styles.welcomeContainer}>
       <View style={styles.logoContainer}>
         <Text style={styles.welcomeMainTitle}>Welcome</Text>
-        <Text style={styles.poweredByText}>Powered by ChatGPT</Text>
+        <Text style={styles.poweredByText}>Powered by ChatGPT-4o</Text>
       </View>
 
       <View style={styles.welcomeContent}>
