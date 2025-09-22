@@ -374,7 +374,7 @@ export default function AuthScreen() {
             {isForgot 
               ? 'Enter your email to receive a reset link'
               : isSignUp 
-              ? 'Join the One for All community'
+              ? 'Join our AI community'
               : 'Sign in to continue'
             }
           </Text>
