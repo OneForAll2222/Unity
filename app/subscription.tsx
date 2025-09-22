@@ -166,7 +166,7 @@ export default function SubscriptionScreen() {
           {renderCurrentStatus()}
 
           <Text style={styles.subtitle}>
-            Unlock unlimited ChatGPT-4 conversations, image generation, music studio, PDF uploads, and all specialists
+            Unlock unlimited ChatGPT-5 conversations, image generation, music studio, PDF uploads, and all specialists
           </Text>
 
           {!hasUnlimitedAccess() && (
@@ -250,7 +250,7 @@ export default function SubscriptionScreen() {
               <View style={styles.featureRow}>
                 <View style={styles.featureItem}>
                   <Check size={16} color="#10B981" />
-                  <Text style={styles.featureText}>Unlimited ChatGPT-4</Text>
+                  <Text style={styles.featureText}>Unlimited ChatGPT-5</Text>
                 </View>
                 <View style={styles.featureItem}>
                   <Check size={16} color="#10B981" />

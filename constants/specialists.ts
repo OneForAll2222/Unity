@@ -34,7 +34,7 @@ export const specialists = [
     icon: MessageCircle,
     gradient: ["#667eea", "#764ba2"] as const,
     chatGradient: ["#667eea", "#764ba2", "#f093fb"] as const,
-    welcomeMessage: "Hello! I'm your General AI Assistant powered by ChatGPT-4o, available for free to help with any questions or tasks you have. I can assist with general information, basic problem-solving, casual conversations, and much more. Whether you need quick answers, brainstorming help, or just want to chat, I'm here for you! What can I help you with today?",
+    welcomeMessage: "Hello! I'm your General AI Assistant powered by ChatGPT-5, available for free to help with any questions or tasks you have. I can assist with general information, basic problem-solving, casual conversations, and much more. Whether you need quick answers, brainstorming help, or just want to chat, I'm here for you! What can I help you with today?",
     isFree: true,
   },
   {
@@ -44,7 +44,7 @@ export const specialists = [
     icon: Languages,
     gradient: ["#4facfe", "#00f2fe"] as const,
     chatGradient: ["#4facfe", "#00f2fe", "#43e97b"] as const,
-    welcomeMessage: "¡Hola! Bonjour! 你好! I'm your Language Translator specialist powered by ChatGPT-4o. I can translate text between 100+ languages, help you learn new languages, explain grammar rules, provide pronunciation guides, and assist with cultural context. Whether you're traveling, studying, or conducting international business, I'm here to break down language barriers!",
+    welcomeMessage: "¡Hola! Bonjour! 你好! I'm your Language Translator specialist powered by ChatGPT-5. I can translate text between 100+ languages, help you learn new languages, explain grammar rules, provide pronunciation guides, and assist with cultural context. Whether you're traveling, studying, or conducting international business, I'm here to break down language barriers!",
     isFree: true,
   },
   {
@@ -184,7 +184,7 @@ export const specialists = [
     icon: Code,
     gradient: ["#667eea", "#764ba2"] as const,
     chatGradient: ["#667eea", "#764ba2", "#f093fb"] as const,
-    welcomeMessage: "Hello! I'm your coding expert powered by ChatGPT-4o. I can help you debug code, suggest optimizations, explain programming concepts, and review your code for best practices. Share your code or ask me anything about programming!",
+    welcomeMessage: "Hello! I'm your coding expert powered by ChatGPT-5. I can help you debug code, suggest optimizations, explain programming concepts, and review your code for best practices. Share your code or ask me anything about programming!",
     isFree: true,
   },
   {
@@ -264,7 +264,7 @@ export const specialists = [
     icon: GraduationCap,
     gradient: ["#ffecd2", "#fcb69f"] as const,
     chatGradient: ["#ffecd2", "#fcb69f", "#4facfe"] as const,
-    welcomeMessage: "Welcome! I'm your personal tutor powered by ChatGPT-4o. I can help with homework, explain complex concepts, provide study strategies, and support your learning journey. What subject would you like to explore today?",
+    welcomeMessage: "Welcome! I'm your personal tutor powered by ChatGPT-5. I can help with homework, explain complex concepts, provide study strategies, and support your learning journey. What subject would you like to explore today?",
     isFree: true,
   },
   {

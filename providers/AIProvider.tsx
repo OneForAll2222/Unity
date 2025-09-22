@@ -73,7 +73,7 @@ const [AIContextProvider, useAIContext] = createContextHook<AIContextType>(() =>
           { role: "system", content: systemPrompt },
           { role: "user", content: message },
         ],
-        model: "gpt-4o", // Using GPT-4o as the latest available model
+        model: "gpt-5", // Using GPT-5 as the latest available model
         max_tokens: 2000,
         temperature: 0.7,
       });
@@ -104,7 +104,7 @@ const [AIContextProvider, useAIContext] = createContextHook<AIContextType>(() =>
             content: `Please analyze this code:\n\n\`\`\`\n${code}\n\`\`\``,
           },
         ],
-        model: "gpt-4o", // Using GPT-4o for better code analysis
+        model: "gpt-5", // Using GPT-5 for better code analysis
         max_tokens: 2000,
         temperature: 0.3, // Lower temperature for more focused code analysis
       });
