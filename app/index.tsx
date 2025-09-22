@@ -171,29 +171,16 @@ export default function AuthScreen() {
   const renderWelcomeScreen = () => (
     <View style={styles.welcomeContainer}>
       <View style={styles.logoContainer}>
-        <LinearGradient
-          colors={['#fff', 'rgba(255, 255, 255, 0.8)']}
-          style={styles.logoCircle}
-        >
-          <Text style={styles.logoText}>1</Text>
-        </LinearGradient>
-        <Text style={styles.appTitle}>One for All</Text>
-        <Text style={styles.appSubtitle}>
-          Powered by ChatGPT-4 • Your AI Professional Assistant Hub
-        </Text>
+        <Text style={styles.welcomeMainTitle}>Welcome</Text>
+        <Text style={styles.poweredByText}>Powered by ChatGPT</Text>
       </View>
 
       <View style={styles.welcomeContent}>
-        <Text style={styles.welcomeTitle}>Welcome!</Text>
+        <Text style={styles.mainDescription}>
+          Get instant access to AI specialists across multiple fields
+        </Text>
+        
         <View style={styles.featuresContainer}>
-          <View style={styles.powerBadge}>
-            <Text style={styles.powerBadgeText}>🤖 Powered by ChatGPT-4</Text>
-          </View>
-          
-          <Text style={styles.welcomeDescription}>
-            Get instant access to AI specialists across multiple fields:
-          </Text>
-          
           <View style={styles.featuresList}>
             <Text style={styles.featureListItem}>💻 Software Development & Coding</Text>
             <Text style={styles.featureListItem}>🏥 Medical Consultation & Health</Text>
@@ -202,11 +189,11 @@ export default function AuthScreen() {
             <Text style={styles.featureListItem}>💼 Business & Professional Advice</Text>
             <Text style={styles.featureListItem}>🎨 Creative & Design Support</Text>
           </View>
-          
-          <Text style={styles.bottomDescription}>
-            Each specialist is powered by advanced ChatGPT-4 technology, providing expert-level guidance tailored to your specific needs.
-          </Text>
         </View>
+        
+        <Text style={styles.bottomDescription}>
+          Each specialist is powered by advanced ChatGPT technology, providing expert-level guidance tailored to your specific needs.
+        </Text>
 
         <View style={styles.trialSection}>
           <View style={styles.trialToggleContainer}>
@@ -612,37 +599,32 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: COLORS.DARK_PURPLE,
   },
-  appTitle: {
-    fontSize: 32,
+  welcomeMainTitle: {
+    fontSize: 36,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 8,
     textAlign: 'center',
+    marginBottom: 8,
   },
-  appSubtitle: {
-    fontSize: 16,
+  poweredByText: {
+    fontSize: 18,
     color: 'rgba(255, 255, 255, 0.9)',
     textAlign: 'center',
-    lineHeight: 22,
+    fontWeight: '600',
+    marginBottom: 20,
   },
   welcomeContent: {
     flex: 1,
     justifyContent: 'center',
     paddingVertical: 40,
   },
-  welcomeTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
+  mainDescription: {
+    fontSize: 18,
+    fontWeight: '600',
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 16,
-  },
-  welcomeDescription: {
-    fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.9)',
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 40,
+    lineHeight: 26,
+    marginBottom: 30,
   },
   buttonContainer: {
     gap: 16,
@@ -810,12 +792,13 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   bottomDescription: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.9)',
     textAlign: 'center',
-    lineHeight: 20,
-    fontStyle: 'italic',
-    marginBottom: 20,
+    lineHeight: 22,
+    fontWeight: '500',
+    marginBottom: 30,
+    paddingHorizontal: 10,
   },
   trialSection: {
     marginBottom: 30,
