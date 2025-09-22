@@ -6,7 +6,7 @@ const chatInputSchema = z.object({
     role: z.enum(['system', 'user', 'assistant']),
     content: z.string(),
   })),
-  model: z.string().default('gpt-4o'),
+  model: z.string().default('gpt-4o-2024-11-20'),
   max_tokens: z.number().default(2000),
   temperature: z.number().default(0.7),
 });

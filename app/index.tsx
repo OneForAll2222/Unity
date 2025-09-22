@@ -172,7 +172,7 @@ export default function AuthScreen() {
     <View style={styles.welcomeContainer}>
       <View style={styles.logoContainer}>
         <Text style={styles.welcomeMainTitle}>Welcome</Text>
-        <Text style={styles.poweredByText}>Powered by ChatGPT-4o</Text>
+        <Text style={styles.poweredByText}>Powered by ChatGPT-4o (Latest)</Text>
       </View>
 
       <View style={styles.welcomeContent}>
@@ -216,7 +216,7 @@ export default function AuthScreen() {
             <View style={styles.subscriptionOptions}>
               <Text style={styles.subscriptionTitle}>Choose Your Pro Access Plan</Text>
               <Text style={styles.subscriptionSubtitle}>
-                Unlock unlimited ChatGPT-4 conversations, image generation, music studio, PDF uploads, and all specialists
+                Unlock unlimited ChatGPT-4o conversations, image generation, music studio, PDF uploads, and all specialists
               </Text>
               
               <View style={styles.planContainer}>
@@ -270,7 +270,7 @@ export default function AuthScreen() {
                 <View style={styles.featureRow}>
                   <View style={styles.featureItem}>
                     <Star size={16} color="#10B981" />
-                    <Text style={styles.featureText}>Unlimited ChatGPT-4</Text>
+                    <Text style={styles.featureText}>Unlimited ChatGPT-4o</Text>
                   </View>
                   <View style={styles.featureItem}>
                     <FileText size={16} color="#10B981" />
