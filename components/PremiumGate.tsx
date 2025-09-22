@@ -20,10 +20,10 @@ interface PremiumGateProps {
 }
 
 export function PremiumGate({ visible, onClose, feature, requiredItem, isNoFreeMessages = false }: PremiumGateProps) {
-  const { isPremium, purchasedItems } = useUser();
+  const { isPremium, purchasedItems, hasUnlimitedAccess, isTrialActive, getRemainingTrialDays } = useUser();
 
   const hasAccess = () => {
-    if (isPremium) return true;
+    if (hasUnlimitedAccess()) return true;
     if (requiredItem && purchasedItems.includes(requiredItem)) return true;
     return false;
   };
@@ -68,8 +68,10 @@ export function PremiumGate({ visible, onClose, feature, requiredItem, isNoFreeM
             </Text>
             <Text style={styles.subtitle}>
               {isNoFreeMessages 
-                ? `You've used all 5 free messages. Upgrade to premium for unlimited AI conversations and access to all specialists.`
-                : `${feature} requires a premium subscription`
+                ? isTrialActive 
+                  ? `You've used all free messages. Your trial has ${getRemainingTrialDays()} days remaining with unlimited access.`
+                  : `You've used all 5 free messages. Start your free trial for unlimited AI conversations and access to all specialists.`
+                : `${feature} requires premium access`
               }
             </Text>
 
@@ -107,7 +109,9 @@ export function PremiumGate({ visible, onClose, feature, requiredItem, isNoFreeM
                 style={styles.upgradeGradient}
               >
                 <CreditCard size={20} color="#fff" />
-                <Text style={styles.upgradeText}>Upgrade to Premium</Text>
+                <Text style={styles.upgradeText}>
+                  {isTrialActive ? 'Upgrade to Premium' : 'Start Free Trial'}
+                </Text>
               </LinearGradient>
             </TouchableOpacity>
 

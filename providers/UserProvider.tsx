@@ -16,6 +16,18 @@ interface UserContextType {
   resetFreeMessages: () => Promise<void>;
   syncFreeMessagesWithStorage: () => Promise<void>;
   clearAllData: () => Promise<void>;
+  // Trial and subscription management
+  isTrialActive: boolean;
+  trialExpiresAt: Date | null;
+  subscriptionType: 'none' | 'weekly' | 'yearly';
+  subscriptionExpiresAt: Date | null;
+  startFreeTrial: (planType: 'weekly' | 'yearly') => Promise<void>;
+  activateSubscription: (planType: 'weekly' | 'yearly') => Promise<void>;
+  hasUnlimitedAccess: () => boolean;
+  canUploadPDF: () => boolean;
+  canGenerateImages: () => boolean;
+  canAccessMusicStudio: () => boolean;
+  getRemainingTrialDays: () => number;
 }
 
 const [UserContextProvider, useUserContext] = createContextHook<UserContextType>(() => {
@@ -24,6 +36,10 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
   const [isPremium, setIsPremiumState] = useState<boolean>(false);
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
   const [freeMessagesRemaining, setFreeMessagesRemaining] = useState<number>(5);
+  const [isTrialActive, setIsTrialActive] = useState<boolean>(false);
+  const [trialExpiresAt, setTrialExpiresAt] = useState<Date | null>(null);
+  const [subscriptionType, setSubscriptionType] = useState<'none' | 'weekly' | 'yearly'>('none');
+  const [subscriptionExpiresAt, setSubscriptionExpiresAt] = useState<Date | null>(null);
 
   useEffect(() => {
     loadUserData();
@@ -35,6 +51,7 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
       
       // Load data sequentially on Android to avoid potential race conditions
       let storedUsername, storedPremium, storedPurchases, storedFreeMessages;
+      let storedTrialActive, storedTrialExpires, storedSubType, storedSubExpires;
       
       if (Platform.OS === 'android') {
         // Sequential loading for Android
@@ -42,13 +59,22 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
         storedPremium = await AsyncStorage.getItem('isPremium');
         storedPurchases = await AsyncStorage.getItem('purchasedItems');
         storedFreeMessages = await AsyncStorage.getItem('freeMessagesRemaining');
+        storedTrialActive = await AsyncStorage.getItem('isTrialActive');
+        storedTrialExpires = await AsyncStorage.getItem('trialExpiresAt');
+        storedSubType = await AsyncStorage.getItem('subscriptionType');
+        storedSubExpires = await AsyncStorage.getItem('subscriptionExpiresAt');
       } else {
         // Parallel loading for other platforms
-        [storedUsername, storedPremium, storedPurchases, storedFreeMessages] = await Promise.all([
+        [storedUsername, storedPremium, storedPurchases, storedFreeMessages, 
+         storedTrialActive, storedTrialExpires, storedSubType, storedSubExpires] = await Promise.all([
           AsyncStorage.getItem('username'),
           AsyncStorage.getItem('isPremium'),
           AsyncStorage.getItem('purchasedItems'),
-          AsyncStorage.getItem('freeMessagesRemaining')
+          AsyncStorage.getItem('freeMessagesRemaining'),
+          AsyncStorage.getItem('isTrialActive'),
+          AsyncStorage.getItem('trialExpiresAt'),
+          AsyncStorage.getItem('subscriptionType'),
+          AsyncStorage.getItem('subscriptionExpiresAt')
         ]);
       }
       
@@ -57,6 +83,7 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
         premium: storedPremium,
         purchases: storedPurchases,
         freeMessages: storedFreeMessages,
+        trialActive: storedTrialActive,
         platform: Platform.OS
       });
       
@@ -98,6 +125,51 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
         console.log('No stored free messages found, initializing to 5');
         setFreeMessagesRemaining(5);
         await AsyncStorage.setItem('freeMessagesRemaining', '5');
+      }
+      
+      // Load trial and subscription data
+      if (storedTrialActive) {
+        try {
+          setIsTrialActive(JSON.parse(storedTrialActive));
+        } catch (error) {
+          console.error('Error parsing trial active status:', error);
+        }
+      }
+      
+      if (storedTrialExpires) {
+        try {
+          const expiryDate = new Date(storedTrialExpires);
+          if (!isNaN(expiryDate.getTime())) {
+            setTrialExpiresAt(expiryDate);
+            // Check if trial has expired
+            if (expiryDate < new Date()) {
+              setIsTrialActive(false);
+              await AsyncStorage.setItem('isTrialActive', 'false');
+            }
+          }
+        } catch (error) {
+          console.error('Error parsing trial expiry date:', error);
+        }
+      }
+      
+      if (storedSubType && ['weekly', 'yearly'].includes(storedSubType)) {
+        setSubscriptionType(storedSubType as 'weekly' | 'yearly');
+      }
+      
+      if (storedSubExpires) {
+        try {
+          const expiryDate = new Date(storedSubExpires);
+          if (!isNaN(expiryDate.getTime())) {
+            setSubscriptionExpiresAt(expiryDate);
+            // Check if subscription has expired
+            if (expiryDate < new Date()) {
+              setSubscriptionType('none');
+              await AsyncStorage.setItem('subscriptionType', 'none');
+            }
+          }
+        } catch (error) {
+          console.error('Error parsing subscription expiry date:', error);
+        }
       }
       
       // Additional Android-specific validation
@@ -158,12 +230,86 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
     }
   }, []);
 
+  const hasUnlimitedAccess = useCallback((): boolean => {
+    // Check if user has premium, active trial, or active subscription
+    if (isPremium) return true;
+    if (isTrialActive && trialExpiresAt && trialExpiresAt > new Date()) return true;
+    if (subscriptionType !== 'none' && subscriptionExpiresAt && subscriptionExpiresAt > new Date()) return true;
+    return false;
+  }, [isPremium, isTrialActive, trialExpiresAt, subscriptionType, subscriptionExpiresAt]);
+  
+  const canUploadPDF = useCallback((): boolean => {
+    return hasUnlimitedAccess();
+  }, [hasUnlimitedAccess]);
+  
+  const canGenerateImages = useCallback((): boolean => {
+    return hasUnlimitedAccess();
+  }, [hasUnlimitedAccess]);
+  
+  const canAccessMusicStudio = useCallback((): boolean => {
+    return hasUnlimitedAccess();
+  }, [hasUnlimitedAccess]);
+  
+  const getRemainingTrialDays = useCallback((): number => {
+    if (!isTrialActive || !trialExpiresAt) return 0;
+    const now = new Date();
+    const diffTime = trialExpiresAt.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.max(0, diffDays);
+  }, [isTrialActive, trialExpiresAt]);
+  
+  const startFreeTrial = useCallback(async (planType: 'weekly' | 'yearly') => {
+    try {
+      const now = new Date();
+      const expiryDate = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days trial
+      
+      setIsTrialActive(true);
+      setTrialExpiresAt(expiryDate);
+      
+      await AsyncStorage.multiSet([
+        ['isTrialActive', 'true'],
+        ['trialExpiresAt', expiryDate.toISOString()]
+      ]);
+      
+      console.log('Free trial started:', { planType, expiryDate });
+    } catch (error) {
+      console.error('Error starting free trial:', error);
+    }
+  }, []);
+  
+  const activateSubscription = useCallback(async (planType: 'weekly' | 'yearly') => {
+    try {
+      const now = new Date();
+      const duration = planType === 'weekly' ? 7 : 365; // days
+      const expiryDate = new Date(now.getTime() + (duration * 24 * 60 * 60 * 1000));
+      
+      // End trial if active
+      setIsTrialActive(false);
+      setTrialExpiresAt(null);
+      
+      // Activate subscription
+      setSubscriptionType(planType);
+      setSubscriptionExpiresAt(expiryDate);
+      
+      await AsyncStorage.multiSet([
+        ['isTrialActive', 'false'],
+        ['trialExpiresAt', ''],
+        ['subscriptionType', planType],
+        ['subscriptionExpiresAt', expiryDate.toISOString()]
+      ]);
+      
+      console.log('Subscription activated:', { planType, expiryDate });
+    } catch (error) {
+      console.error('Error activating subscription:', error);
+    }
+  }, []);
+
   const useFreeMessage = useCallback(async (): Promise<boolean> => {
     console.log(`useFreeMessage called on ${Platform.OS} - isPremium:`, isPremium, 'freeMessagesRemaining:', freeMessagesRemaining);
     
-    if (isPremium) {
-      console.log('User is premium, allowing message');
-      return true; // Premium users have unlimited messages
+    if (hasUnlimitedAccess()) {
+      console.log('User has unlimited access, allowing message');
+      return true;
     }
     
     // Double-check current state from storage for Android reliability
@@ -242,7 +388,7 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
     
     console.log('No free messages remaining');
     return false; // No free messages remaining
-  }, [isPremium, freeMessagesRemaining]);
+  }, [hasUnlimitedAccess, freeMessagesRemaining]);
 
   const resetFreeMessages = useCallback(async () => {
     console.log('Resetting free messages to 5');
@@ -277,7 +423,11 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
         'username',
         'isPremium', 
         'purchasedItems',
-        'freeMessagesRemaining'
+        'freeMessagesRemaining',
+        'isTrialActive',
+        'trialExpiresAt',
+        'subscriptionType',
+        'subscriptionExpiresAt'
       ]);
       
       // Reset to default values
@@ -285,6 +435,10 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
       setIsPremiumState(false);
       setPurchasedItems([]);
       setFreeMessagesRemaining(5);
+      setIsTrialActive(false);
+      setTrialExpiresAt(null);
+      setSubscriptionType('none');
+      setSubscriptionExpiresAt(null);
       
       // Re-initialize with defaults
       await AsyncStorage.setItem('freeMessagesRemaining', '5');
@@ -323,7 +477,18 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
     resetFreeMessages,
     syncFreeMessagesWithStorage,
     clearAllData,
-  }), [username, setUsername, isLoading, isPremium, setIsPremium, purchasedItems, addPurchasedItem, freeMessagesRemaining, useFreeMessage, resetFreeMessages, syncFreeMessagesWithStorage, clearAllData]);
+    isTrialActive,
+    trialExpiresAt,
+    subscriptionType,
+    subscriptionExpiresAt,
+    startFreeTrial,
+    activateSubscription,
+    hasUnlimitedAccess,
+    canUploadPDF,
+    canGenerateImages,
+    canAccessMusicStudio,
+    getRemainingTrialDays,
+  }), [username, setUsername, isLoading, isPremium, setIsPremium, purchasedItems, addPurchasedItem, freeMessagesRemaining, useFreeMessage, resetFreeMessages, syncFreeMessagesWithStorage, clearAllData, isTrialActive, trialExpiresAt, subscriptionType, subscriptionExpiresAt, startFreeTrial, activateSubscription, hasUnlimitedAccess, canUploadPDF, canGenerateImages, canAccessMusicStudio, getRemainingTrialDays]);
 });
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
