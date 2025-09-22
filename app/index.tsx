@@ -13,7 +13,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Mail, Lock, User, Eye, EyeOff, Check } from 'lucide-react-native';
+import { Mail, Lock, User, Eye, EyeOff, Check, Crown, Star, Zap, FileText } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MAIN_GRADIENT, COLORS } from '@/constants/colors';
@@ -30,7 +30,8 @@ export default function AuthScreen() {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-
+  const [freeTrialEnabled, setFreeTrialEnabled] = useState<boolean>(false);
+  const [selectedPlan, setSelectedPlan] = useState<'weekly' | 'yearly'>('yearly');
 
   useEffect(() => {
     loadSavedCredentials();
@@ -170,23 +171,13 @@ export default function AuthScreen() {
   const renderWelcomeScreen = () => (
     <View style={styles.welcomeContainer}>
       <View style={styles.logoContainer}>
-        <LinearGradient
-          colors={['#fff', '#f0f0f0']}
-          style={styles.logoCircle}
-        >
-          <Text style={styles.logoText}>1</Text>
-        </LinearGradient>
-        <Text style={styles.welcomeTitle}>One for All</Text>
-        <Text style={styles.welcomeSubtitle}>Your AI-Powered Assistant Hub</Text>
+        <Text style={styles.welcomeMainTitle}>Welcome</Text>
+        <Text style={styles.poweredByText}>Powered by ChatGPT</Text>
       </View>
 
       <View style={styles.welcomeContent}>
-        <View style={styles.powerBadge}>
-          <Text style={styles.powerBadgeText}>Powered by ChatGPT-4</Text>
-        </View>
-        
         <Text style={styles.mainDescription}>
-          Access specialized AI assistants for every aspect of your life. From coding to health advice, music production to learning - we&apos;ve got you covered.
+          Get instant access to AI specialists across multiple fields
         </Text>
         
         <View style={styles.featuresContainer}>
@@ -198,6 +189,126 @@ export default function AuthScreen() {
             <Text style={styles.featureListItem}>💼 Business & Professional Advice</Text>
             <Text style={styles.featureListItem}>🎨 Creative & Design Support</Text>
           </View>
+        </View>
+        
+        <Text style={styles.bottomDescription}>
+          Each specialist is powered by advanced ChatGPT technology, providing expert-level guidance tailored to your specific needs.
+        </Text>
+
+        <View style={styles.trialSection}>
+          <View style={styles.trialToggleContainer}>
+            <TouchableOpacity
+              style={styles.trialToggle}
+              onPress={() => {
+                handleHaptic();
+                setFreeTrialEnabled(!freeTrialEnabled);
+              }}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.toggleSwitch, freeTrialEnabled && styles.toggleSwitchActive]}>
+                <View style={[styles.toggleKnob, freeTrialEnabled && styles.toggleKnobActive]} />
+              </View>
+              <Text style={styles.trialToggleText}>Enable Free Trial</Text>
+            </TouchableOpacity>
+          </View>
+
+          {freeTrialEnabled && (
+            <View style={styles.subscriptionOptions}>
+              <Text style={styles.subscriptionTitle}>Choose Your Pro Access Plan</Text>
+              <Text style={styles.subscriptionSubtitle}>
+                Unlock unlimited ChatGPT-4 conversations, image generation, music studio, PDF uploads, and all specialists
+              </Text>
+              
+              <View style={styles.planContainer}>
+                <TouchableOpacity
+                  style={[styles.planOption, selectedPlan === 'yearly' && styles.planOptionSelected]}
+                  onPress={() => {
+                    handleHaptic();
+                    setSelectedPlan('yearly');
+                  }}
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={selectedPlan === 'yearly' ? ['#10B981', '#059669'] : ['rgba(255, 255, 255, 0.1)', 'rgba(255, 255, 255, 0.05)']}
+                    style={styles.planGradient}
+                  >
+                    <View style={styles.planHeader}>
+                      <Crown size={20} color={selectedPlan === 'yearly' ? '#fff' : 'rgba(255, 255, 255, 0.8)'} />
+                      <Text style={[styles.planName, selectedPlan === 'yearly' && styles.planNameSelected]}>Yearly Pro</Text>
+                      <View style={styles.popularBadge}>
+                        <Text style={styles.popularText}>BEST VALUE</Text>
+                      </View>
+                    </View>
+                    <Text style={[styles.planPrice, selectedPlan === 'yearly' && styles.planPriceSelected]}>$39.99/year</Text>
+                    <Text style={[styles.planSavings, selectedPlan === 'yearly' && styles.planSavingsSelected]}>Save 80% • $3.33/month</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.planOption, selectedPlan === 'weekly' && styles.planOptionSelected]}
+                  onPress={() => {
+                    handleHaptic();
+                    setSelectedPlan('weekly');
+                  }}
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={selectedPlan === 'weekly' ? ['#7C3AED', '#DB2777'] : ['rgba(255, 255, 255, 0.1)', 'rgba(255, 255, 255, 0.05)']}
+                    style={styles.planGradient}
+                  >
+                    <View style={styles.planHeader}>
+                      <Zap size={20} color={selectedPlan === 'weekly' ? '#fff' : 'rgba(255, 255, 255, 0.8)'} />
+                      <Text style={[styles.planName, selectedPlan === 'weekly' && styles.planNameSelected]}>Weekly Pro</Text>
+                    </View>
+                    <Text style={[styles.planPrice, selectedPlan === 'weekly' && styles.planPriceSelected]}>$7.99/week</Text>
+                    <Text style={[styles.planDescription, selectedPlan === 'weekly' && styles.planDescriptionSelected]}>Perfect for short-term projects</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.featuresGrid}>
+                <View style={styles.featureRow}>
+                  <View style={styles.featureItem}>
+                    <Star size={16} color="#10B981" />
+                    <Text style={styles.featureText}>Unlimited ChatGPT-4</Text>
+                  </View>
+                  <View style={styles.featureItem}>
+                    <FileText size={16} color="#10B981" />
+                    <Text style={styles.featureText}>PDF Upload & Analysis</Text>
+                  </View>
+                </View>
+                <View style={styles.featureRow}>
+                  <View style={styles.featureItem}>
+                    <Crown size={16} color="#10B981" />
+                    <Text style={styles.featureText}>All AI Specialists</Text>
+                  </View>
+                  <View style={styles.featureItem}>
+                    <Zap size={16} color="#10B981" />
+                    <Text style={styles.featureText}>Image Generation</Text>
+                  </View>
+                </View>
+              </View>
+              
+              <TouchableOpacity
+                style={styles.continueTrialButton}
+                onPress={() => {
+                  handleHaptic();
+                  router.push('/subscription');
+                }}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={['#7C3AED', '#DB2777']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.continueTrialGradient}
+                >
+                  <Crown size={20} color="#fff" />
+                  <Text style={styles.continueTrialText}>Continue with {selectedPlan === 'yearly' ? 'Yearly' : 'Weekly'} Plan</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         <View style={styles.buttonContainer}>
@@ -488,18 +599,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: COLORS.DARK_PURPLE,
   },
-  welcomeTitle: {
-    fontSize: 32,
+  welcomeMainTitle: {
+    fontSize: 36,
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center',
     marginBottom: 8,
   },
-  welcomeSubtitle: {
-    fontSize: 16,
+  poweredByText: {
+    fontSize: 18,
     color: 'rgba(255, 255, 255, 0.9)',
     textAlign: 'center',
-    fontWeight: '500',
+    fontWeight: '600',
+    marginBottom: 20,
   },
   welcomeContent: {
     flex: 1,
@@ -507,12 +619,12 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   mainDescription: {
-    fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#fff',
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 26,
     marginBottom: 30,
-    paddingHorizontal: 10,
   },
   buttonContainer: {
     gap: 16,
@@ -679,5 +791,183 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     lineHeight: 20,
   },
-
+  bottomDescription: {
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.9)',
+    textAlign: 'center',
+    lineHeight: 22,
+    fontWeight: '500',
+    marginBottom: 30,
+    paddingHorizontal: 10,
+  },
+  trialSection: {
+    marginBottom: 30,
+  },
+  trialToggleContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  trialToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  toggleSwitch: {
+    width: 50,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    justifyContent: 'center',
+    paddingHorizontal: 2,
+  },
+  toggleSwitchActive: {
+    backgroundColor: '#10B981',
+  },
+  toggleKnob: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    alignSelf: 'flex-start',
+  },
+  toggleKnobActive: {
+    alignSelf: 'flex-end',
+  },
+  trialToggleText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+  },
+  subscriptionOptions: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  subscriptionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subscriptionSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  planContainer: {
+    gap: 12,
+    marginBottom: 20,
+  },
+  planOption: {
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  planOptionSelected: {
+    elevation: 4,
+    shadowColor: '#10B981',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  planGradient: {
+    padding: 16,
+    position: 'relative',
+  },
+  planHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    gap: 8,
+  },
+  planName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'rgba(255, 255, 255, 0.8)',
+    flex: 1,
+  },
+  planNameSelected: {
+    color: '#fff',
+  },
+  popularBadge: {
+    backgroundColor: '#F59E0B',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+  },
+  popularText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  planPrice: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginBottom: 4,
+  },
+  planPriceSelected: {
+    color: '#fff',
+  },
+  planSavings: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontWeight: '500',
+  },
+  planSavingsSelected: {
+    color: 'rgba(255, 255, 255, 0.9)',
+  },
+  planDescription: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+  planDescriptionSelected: {
+    color: 'rgba(255, 255, 255, 0.9)',
+  },
+  featuresGrid: {
+    gap: 8,
+  },
+  featureRow: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  featureItem: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  featureText: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontWeight: '500',
+    flex: 1,
+  },
+  continueTrialButton: {
+    borderRadius: 12,
+    overflow: 'hidden',
+    marginTop: 16,
+    elevation: 3,
+    shadowColor: '#7C3AED',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  continueTrialGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    gap: 8,
+  },
+  continueTrialText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+  },
 });
