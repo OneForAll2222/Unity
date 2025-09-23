@@ -4,7 +4,7 @@ export const APP_CONFIG = {
   API_BASE_URL: process.env.EXPO_PUBLIC_RORK_API_BASE_URL || 'https://rork.com',
   
   // Stripe Configuration
-  STRIPE_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_live_51RZeN6CAk49oQkbWNxTpS5rLknUikwy4cZiYfDIuw9UI6BkbbDj5XnKGRNqseCKXPbXR6PB1Qjx9w4ilUt43zIxs00KP745F2v',
+  STRIPE_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_YOUR_ACTUAL_TEST_PUBLISHABLE_KEY_HERE',
   
   // PayPal Configuration
   PAYPAL_CLIENT_ID: process.env.EXPO_PUBLIC_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'your-paypal-client-id-here',
