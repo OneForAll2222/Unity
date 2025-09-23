@@ -177,7 +177,7 @@ export default function AuthScreen() {
 
       <View style={styles.welcomeContent}>
         <Text style={styles.mainDescription}>
-          Get instant access to AI specialists across multiple fields and many more with further expertise
+          Get instant access to AI specialists for personalized 1-on-1 lessons across multiple fields and many more with further expertise
         </Text>
         
         <View style={styles.featuresContainer}>
