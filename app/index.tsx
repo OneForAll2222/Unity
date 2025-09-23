@@ -337,7 +337,7 @@ export default function AuthScreen() {
       </View>
       
       <View style={styles.footerContainer}>
-        <Text style={styles.footerText}>Created by Alissa Smith</Text>
+        <Text style={styles.footerText}>Created by AA Designs</Text>
       </View>
     </View>
   );
