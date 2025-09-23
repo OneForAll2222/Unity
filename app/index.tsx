@@ -177,7 +177,7 @@ export default function AuthScreen() {
 
       <View style={styles.welcomeContent}>
         <Text style={styles.mainDescription}>
-          Get instant access to AI specialists for personalized 1-on-1 lessons across multiple fields and many more with further expertise
+          Get instant access to AI specialists for personalized 1-on-1 lessons, interactive learning courses, and professional guidance across multiple fields
         </Text>
         
         <View style={styles.featuresContainer}>
@@ -185,14 +185,14 @@ export default function AuthScreen() {
             <Text style={styles.featureListItem}>💻 Software Development & Coding</Text>
             <Text style={styles.featureListItem}>🏥 Medical Consultation & Health</Text>
             <Text style={[styles.featureListItem, styles.musicStudioFeature]}>🎵 Music Studio & Production</Text>
-            <Text style={styles.featureListItem}>📚 Learning & Education</Text>
+            <Text style={styles.featureListItem}>📚 Interactive Learning Courses & 1-on-1 Tutoring</Text>
             <Text style={styles.featureListItem}>💼 Business & Professional Advice</Text>
             <Text style={styles.featureListItem}>🎨 Creative & Design Support</Text>
           </View>
         </View>
         
         <Text style={styles.bottomDescription}>
-          Each specialist is powered by advanced ChatGPT 5 technology, providing expert-level guidance tailored to your specific needs.
+          Each specialist is powered by advanced ChatGPT 5 technology, providing expert-level guidance, personalized 1-on-1 sessions, and interactive learning experiences tailored to your specific needs.
         </Text>
 
         <View style={styles.trialSection}>
