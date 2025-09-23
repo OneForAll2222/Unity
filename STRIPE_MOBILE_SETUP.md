@@ -34,7 +34,7 @@ npm install stripe
 Add to your `.env` file:
 ```env
 STRIPE_SECRET_KEY=sk_live_YOUR_SECRET_KEY_HERE
-STRIPE_PUBLISHABLE_KEY=pk_live_51RZeN6CAk49oQkbWNxTpS5rLknUikwy4cZiYfDIuw9UI6BkbbDj5XnKGRNqseCKXPbXR6PB1Qjx9w4ilUt43zIxs00KP745F2v
+EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_PUBLISHABLE_KEY_HERE
 ```
 
 ### Step 3: Enable Stripe in Backend
