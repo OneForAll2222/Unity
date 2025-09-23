@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rork.unity-000nepri",
+      "bundleIdentifier": "app.rork.unity-000nepri",
       "infoPlist": {
         "UIBackgroundModes": [
           "audio"
