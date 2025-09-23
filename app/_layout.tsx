@@ -75,6 +75,13 @@ function RootLayoutNav() {
           headerShown: false,
         }} 
       />
+      <Stack.Screen 
+        name="api-test" 
+        options={{ 
+          headerShown: true,
+          title: 'API Diagnostics',
+        }} 
+      />
     </Stack>
   );
 }
