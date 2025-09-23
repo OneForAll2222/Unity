@@ -177,14 +177,14 @@ export default function AuthScreen() {
 
       <View style={styles.welcomeContent}>
         <Text style={styles.mainDescription}>
-          Get instant access to AI specialists across multiple fields
+          Get instant access to AI specialists across multiple fields and many more with further expertise
         </Text>
         
         <View style={styles.featuresContainer}>
           <View style={styles.featuresList}>
             <Text style={styles.featureListItem}>💻 Software Development & Coding</Text>
             <Text style={styles.featureListItem}>🏥 Medical Consultation & Health</Text>
-            <Text style={styles.featureListItem}>🎵 Music Production & Audio</Text>
+            <Text style={[styles.featureListItem, styles.musicStudioFeature]}>🎵 Music Studio & Production</Text>
             <Text style={styles.featureListItem}>📚 Learning & Education</Text>
             <Text style={styles.featureListItem}>💼 Business & Professional Advice</Text>
             <Text style={styles.featureListItem}>🎨 Creative & Design Support</Text>
@@ -969,5 +969,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#fff',
+  },
+  musicStudioFeature: {
+    fontWeight: '700',
+    fontSize: 16,
+    color: '#fff',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });
