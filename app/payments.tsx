@@ -17,32 +17,32 @@ import { router } from 'expo-router';
 
 const premiumItems: PaymentItem[] = [
   {
-    id: 'premium-plan',
-    name: 'Premium Plan',
-    price: 9.99,
-    description: 'Unlock all specialists and advanced features',
+    id: 'yearly-pro',
+    name: 'Yearly Pro Subscription',
+    price: 39.99,
+    description: 'Best value - Save 80% with annual billing. Unlock all specialists, unlimited ChatGPT-5, music studio, and advanced features',
     category: 'subscription'
   },
   {
-    id: 'ai-tutor',
-    name: 'Personal AI Tutor',
-    price: 19.99,
-    description: '1-on-1 AI tutoring sessions with personalized learning',
+    id: 'weekly-pro',
+    name: 'Weekly Pro Subscription',
+    price: 7.99,
+    description: 'Perfect for short-term projects. Full access to all premium features',
+    category: 'subscription'
+  },
+  {
+    id: 'ai-tutor-session',
+    name: '1-on-1 AI Tutoring Session',
+    price: 4.99,
+    description: 'Single personalized tutoring session with AI specialist (1 hour)',
     category: 'service'
   },
   {
-    id: 'music-course',
-    name: 'Music Production Masterclass',
-    price: 49.99,
-    description: 'Complete course on music production and audio engineering',
-    category: 'course'
-  },
-  {
-    id: 'coding-bootcamp',
-    name: 'Coding Bootcamp Access',
-    price: 99.99,
-    description: 'Full access to our intensive coding bootcamp program',
-    category: 'course'
+    id: 'music-studio-access',
+    name: 'Music Studio Day Pass',
+    price: 2.99,
+    description: '24-hour access to full music production studio features',
+    category: 'service'
   }
 ];
 
@@ -105,7 +105,7 @@ export default function PaymentsScreen() {
           >
             <ArrowLeft size={24} color="#fff" />
           </TouchableOpacity>
-          <Text style={styles.title}>Premium Services</Text>
+          <Text style={styles.title}>Pro Access & Services</Text>
           <View style={styles.headerButtons}>
             <TouchableOpacity
               style={styles.testButton}
@@ -131,7 +131,7 @@ export default function PaymentsScreen() {
           showsVerticalScrollIndicator={false}
         >
           <Text style={styles.subtitle}>
-            Unlock premium features with secure payments
+            Choose your plan or get individual services with secure payments
           </Text>
 
           {!isPremium && (

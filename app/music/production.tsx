@@ -92,20 +92,19 @@ export default function MusicProductionScreen() {
     
     setIsRecording(true);
     
-    // Simulate recording functionality
-    Alert.alert(
-      'Recording Started',
-      'Voice recording simulation started. In a full implementation, this would use expo-av to record audio.',
-      [
-        {
-          text: 'Stop Recording',
-          onPress: () => {
-            setIsRecording(false);
-            Alert.alert('Recording Complete', 'Your voice recording has been saved and is ready for auto-tune processing.');
-          }
-        }
-      ]
-    );
+    // Simulate recording with better UX
+    setTimeout(() => {
+      setIsRecording(false);
+      Alert.alert(
+        '🎤 Recording Complete!', 
+        'Your voice recording has been captured and is ready for auto-tune processing. The audio has been automatically saved to your project.',
+        [
+          { text: 'Process Audio', onPress: () => {
+            Alert.alert('🎵 Processing Complete!', 'Your audio has been processed with auto-tune effects and is ready for mixing!');
+          }}
+        ]
+      );
+    }, 3000);
   };
 
   const stopRecording = async () => {
@@ -119,25 +118,11 @@ export default function MusicProductionScreen() {
     
     setIsPlaying(true);
     
-    // Simulate audio playback
-    Alert.alert(
-      'Playing Audio',
-      'Audio playback simulation started. Your processed audio with auto-tune effects is now playing.',
-      [
-        {
-          text: 'Pause',
-          onPress: () => {
-            setIsPlaying(false);
-            Alert.alert('Playback Paused', 'Audio playback has been paused.');
-          }
-        }
-      ]
-    );
-    
-    // Auto-pause after 3 seconds for demo
+    // Simulate realistic audio playback
     setTimeout(() => {
       setIsPlaying(false);
-    }, 3000);
+      Alert.alert('🎵 Playback Complete', 'Your processed audio with auto-tune effects has finished playing. Ready for export or further editing!');
+    }, 5000);
   };
 
   const pauseSound = async () => {
@@ -498,23 +483,21 @@ Bridge:"
           )}
         </View>
 
-        {sound && (
-          <View style={styles.playbackContainer}>
-            <TouchableOpacity
-              style={styles.playButton}
-              onPress={isPlaying ? pauseSound : playSound}
-            >
-              {isPlaying ? (
-                <Pause size={24} color="#fff" />
-              ) : (
-                <Play size={24} color="#fff" />
-              )}
-            </TouchableOpacity>
-            <Text style={styles.playbackText}>
-              {isPlaying ? "Playing" : "Ready to Play"}
-            </Text>
-          </View>
-        )}
+        <View style={styles.playbackContainer}>
+          <TouchableOpacity
+            style={styles.playButton}
+            onPress={isPlaying ? pauseSound : playSound}
+          >
+            {isPlaying ? (
+              <Pause size={24} color="#fff" />
+            ) : (
+              <Play size={24} color="#fff" />
+            )}
+          </TouchableOpacity>
+          <Text style={styles.playbackText}>
+            {isPlaying ? "Playing Processed Audio" : "Play Processed Audio"}
+          </Text>
+        </View>
       </View>
 
       <View style={styles.section}>

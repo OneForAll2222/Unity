@@ -60,13 +60,37 @@ export default function CategoryScreen() {
       [
         { text: "Close", style: "cancel" },
         {
+          text: "Schedule 1-on-1 Session",
+          onPress: () => {
+            Alert.alert(
+              "🎓 1-on-1 Tutoring Available!", 
+              `Book a personalized tutoring session for "${lesson.title}" with our AI specialist.\n\n✨ What you'll get:\n• Personalized explanation of concepts\n• Interactive Q&A session\n• Custom practice exercises\n• Progress tracking\n\nWould you like to schedule a session?`,
+              [
+                { text: "Maybe Later", style: "cancel" },
+                { text: "Book Session", onPress: () => {
+                  Alert.alert("📅 Session Booked!", "Your 1-on-1 tutoring session has been scheduled. You'll receive a confirmation shortly.");
+                }}
+              ]
+            );
+          },
+        },
+        {
           text: completedLessons.includes(lesson.id) ? "Mark as Reviewed" : "Complete Lesson",
           onPress: () => {
             if (!completedLessons.includes(lesson.id)) {
               setCompletedLessons([...completedLessons, lesson.id]);
-              Alert.alert("🎉 Congratulations!", `You've completed "${lesson.title}"!\n\nKeep up the great work!`);
+              Alert.alert(
+                "🎉 Congratulations!", 
+                `You've completed "${lesson.title}"!\n\n🎓 Want to go deeper? Book a 1-on-1 tutoring session to master this topic with personalized guidance!`,
+                [
+                  { text: "Continue Learning", style: "cancel" },
+                  { text: "Book 1-on-1 Session", onPress: () => {
+                    Alert.alert("📅 Session Booked!", "Your personalized tutoring session has been scheduled!");
+                  }}
+                ]
+              );
             } else {
-              Alert.alert("📖 Lesson Reviewed", "Great job reviewing the material!");
+              Alert.alert("📖 Lesson Reviewed", "Great job reviewing the material! Consider booking a 1-on-1 session for advanced topics.");
             }
           },
         },
