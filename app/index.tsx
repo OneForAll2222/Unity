@@ -177,7 +177,7 @@ export default function AuthScreen() {
 
       <View style={styles.welcomeContent}>
         <Text style={styles.mainDescription}>
-          Get instant access to AI specialists for personalized 1-on-1 lessons, interactive learning courses, live tutoring sessions, and professional guidance across multiple fields
+          Get instant access to AI specialists for personalized 1-on-1 tutoring sessions, interactive learning courses, live mentoring, and professional guidance across multiple fields
         </Text>
         
         <View style={styles.featuresContainer}>
@@ -186,13 +186,14 @@ export default function AuthScreen() {
             <Text style={styles.featureListItem}>🏥 Medical Consultation & Health</Text>
             <Text style={[styles.featureListItem, styles.musicStudioFeature]}>🎵 Music Studio & Production</Text>
             <Text style={styles.featureListItem}>📚 Interactive Learning Courses & Live 1-on-1 Tutoring Sessions</Text>
+            <Text style={styles.featureListItem}>👨‍🏫 Personal AI Tutors for Individual Mentoring</Text>
             <Text style={styles.featureListItem}>💼 Business & Professional Advice</Text>
             <Text style={styles.featureListItem}>🎨 Creative & Design Support</Text>
           </View>
         </View>
         
         <Text style={styles.bottomDescription}>
-          Each specialist is powered by advanced ChatGPT 5 technology, providing expert-level guidance, personalized 1-on-1 tutoring sessions, live interactive lessons, and comprehensive learning experiences tailored to your specific needs and learning style.
+          Each specialist is powered by advanced ChatGPT 5 technology, providing expert-level guidance, personalized 1-on-1 tutoring sessions, live interactive lessons, and comprehensive learning experiences tailored to your specific needs and learning style. Book individual sessions with AI tutors for focused, personalized learning.
         </Text>
 
         <View style={styles.trialSection}>
