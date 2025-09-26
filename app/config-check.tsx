@@ -56,6 +56,15 @@ export default function ConfigurationScreen() {
       required: true,
     });
 
+    // Check AI API Configuration (Note: These are server-side only, so we can't check them directly)
+    configChecks.push({
+      name: 'AI API Keys',
+      status: 'warning',
+      message: 'Server-side only - Check console logs when testing chat',
+      value: 'OpenAI or Gemini required',
+      required: true,
+    });
+
     // Check PayPal Configuration (optional)
     const paypalClientId = process.env.EXPO_PUBLIC_PAYPAL_CLIENT_ID;
     configChecks.push({
@@ -235,9 +244,10 @@ ADMIN_PASSWORD=MySecureAdmin2024!`;
               <Text style={styles.instructionsText}>
                 1. Copy the .env template above{'\n'}
                 2. Replace placeholder values with your actual API keys{'\n'}
-                3. Restart your development server{'\n'}
-                4. Run the API test to verify everything works{'\n'}
-                5. Check the API_INTEGRATION_GUIDE.md for detailed instructions
+                3. Add at least one AI API key (OpenAI or Gemini){'\n'}
+                4. Restart your development server{'\n'}
+                5. Test the Assistant tab to verify AI integration{'\n'}
+                6. Check API_KEYS_SETUP.md for detailed instructions
               </Text>
             </View>
           </ScrollView>

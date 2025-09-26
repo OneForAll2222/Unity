@@ -98,11 +98,18 @@ async function callWithFallback(input: any) {
   const openaiKey = process.env.OPENAI_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
   
-  const hasOpenAI = openaiKey && !openaiKey.includes('YOUR_ACTUAL');
-  const hasGemini = geminiKey && !geminiKey.includes('YOUR_ACTUAL');
+  const hasOpenAI = openaiKey && !openaiKey.includes('YOUR_ACTUAL') && !openaiKey.includes('your_openai_api_key_here') && openaiKey.trim() !== '';
+  const hasGemini = geminiKey && !geminiKey.includes('YOUR_ACTUAL') && !geminiKey.includes('your_gemini_api_key_here') && geminiKey.trim() !== '';
+  
+  console.log('API Keys Status:', {
+    openaiConfigured: !!hasOpenAI,
+    geminiConfigured: !!hasGemini,
+    openaiKeyFormat: openaiKey ? `${openaiKey.substring(0, 8)}...` : 'not set',
+    geminiKeyFormat: geminiKey ? `${geminiKey.substring(0, 8)}...` : 'not set'
+  });
   
   if (!hasOpenAI && !hasGemini) {
-    throw new Error('No API keys configured. Please set up either OpenAI or Gemini API key.');
+    throw new Error('❌ No API keys configured. Please add your OpenAI or Gemini API key to the .env file. See API_KEYS_SETUP.md for instructions.');
   }
   
   // Try OpenAI first (preferred for GPT models)
@@ -117,7 +124,7 @@ async function callWithFallback(input: any) {
           return await callGemini(input);
         } catch (geminiError) {
           console.error('Both APIs failed:', { openai: error, gemini: geminiError });
-          throw new Error('Both OpenAI and Gemini APIs failed. Please check your API keys and try again.');
+          throw new Error('❌ Both OpenAI and Gemini APIs failed. Please check your API keys, internet connection, and API quotas. See console for detailed errors.');
         }
       } else {
         throw error;
