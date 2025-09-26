@@ -98,8 +98,8 @@ async function callWithFallback(input: any) {
   const openaiKey = process.env.OPENAI_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
   
-  const hasOpenAI = openaiKey && !openaiKey.includes('YOUR_ACTUAL') && !openaiKey.includes('your_openai_api_key_here') && openaiKey.trim() !== '';
-  const hasGemini = geminiKey && !geminiKey.includes('YOUR_ACTUAL') && !geminiKey.includes('your_gemini_api_key_here') && geminiKey.trim() !== '';
+  const hasOpenAI = openaiKey && !openaiKey.includes('YOUR_ACTUAL') && !openaiKey.includes('your_openai_api_key') && openaiKey.trim() !== '' && openaiKey.startsWith('sk-');
+  const hasGemini = geminiKey && !geminiKey.includes('YOUR_ACTUAL') && !geminiKey.includes('your_gemini_api_key') && geminiKey.trim() !== '' && geminiKey.startsWith('AIza');
   
   console.log('API Keys Status:', {
     openaiConfigured: !!hasOpenAI,
