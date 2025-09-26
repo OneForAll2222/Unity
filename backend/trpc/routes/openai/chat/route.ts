@@ -98,8 +98,29 @@ async function callWithFallback(input: any) {
   const openaiKey = process.env.OPENAI_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
   
-  const hasOpenAI = openaiKey && !openaiKey.includes('YOUR_ACTUAL') && !openaiKey.includes('your_openai_api_key') && openaiKey.trim() !== '' && openaiKey.startsWith('sk-');
-  const hasGemini = geminiKey && !geminiKey.includes('YOUR_ACTUAL') && !geminiKey.includes('your_gemini_api_key') && geminiKey.trim() !== '' && geminiKey.startsWith('AIza');
+  console.log('Environment check:', {
+    openaiKeyExists: !!openaiKey,
+    geminiKeyExists: !!geminiKey,
+    openaiKeyLength: openaiKey?.length || 0,
+    geminiKeyLength: geminiKey?.length || 0,
+    openaiKeyStart: openaiKey?.substring(0, 10) || 'none',
+    geminiKeyStart: geminiKey?.substring(0, 10) || 'none'
+  });
+  
+  // More flexible validation - check for reasonable key length and format
+  const hasOpenAI = openaiKey && 
+    openaiKey.trim() !== '' && 
+    openaiKey.startsWith('sk-') && 
+    openaiKey.length > 20 && 
+    !openaiKey.includes('YOUR_ACTUAL') && 
+    !openaiKey.includes('your_openai_api_key');
+    
+  const hasGemini = geminiKey && 
+    geminiKey.trim() !== '' && 
+    geminiKey.startsWith('AIza') && 
+    geminiKey.length > 20 && 
+    !geminiKey.includes('YOUR_ACTUAL') && 
+    !geminiKey.includes('your_gemini_api_key');
   
   console.log('API Keys Status:', {
     openaiConfigured: !!hasOpenAI,
@@ -145,6 +166,47 @@ async function callWithFallback(input: any) {
   
   throw new Error('No working API configuration found.');
 }
+
+// Test procedure to check API key configuration
+export const testApiKeysProcedure = publicProcedure
+  .query(async () => {
+    const openaiKey = process.env.OPENAI_API_KEY;
+    const geminiKey = process.env.GEMINI_API_KEY;
+    
+    // Use same validation logic as the main function
+    const hasOpenAI = openaiKey && 
+      openaiKey.trim() !== '' && 
+      openaiKey.startsWith('sk-') && 
+      openaiKey.length > 20 && 
+      !openaiKey.includes('YOUR_ACTUAL') && 
+      !openaiKey.includes('your_openai_api_key');
+      
+    const hasGemini = geminiKey && 
+      geminiKey.trim() !== '' && 
+      geminiKey.startsWith('AIza') && 
+      geminiKey.length > 20 && 
+      !geminiKey.includes('YOUR_ACTUAL') && 
+      !geminiKey.includes('your_gemini_api_key');
+    
+    return {
+      openai: {
+        configured: !!hasOpenAI,
+        keyFormat: openaiKey ? `${openaiKey.substring(0, 8)}...${openaiKey.substring(-4)}` : 'not set',
+        keyLength: openaiKey?.length || 0,
+        rawKeyStart: openaiKey?.substring(0, 15) || 'none'
+      },
+      gemini: {
+        configured: !!hasGemini,
+        keyFormat: geminiKey ? `${geminiKey.substring(0, 8)}...${geminiKey.substring(-4)}` : 'not set',
+        keyLength: geminiKey?.length || 0,
+        rawKeyStart: geminiKey?.substring(0, 15) || 'none'
+      },
+      environment: {
+        nodeEnv: process.env.NODE_ENV,
+        hasEnvFile: !!process.env.OPENAI_API_KEY || !!process.env.GEMINI_API_KEY
+      }
+    };
+  });
 
 export const chatProcedure = publicProcedure
   .input(chatInputSchema)

@@ -85,7 +85,54 @@ export default function APITestScreen() {
       });
     }
 
-    // Test 4: OpenAI API Configuration
+    // Test 4: Backend Environment Check
+    try {
+      const response = await fetch(`${APP_CONFIG.API_BASE_URL}/api/debug/env`);
+      if (response.ok) {
+        const data = await response.json();
+        testResults.push({
+          name: 'Backend Environment',
+          status: (data.openaiKeyExists || data.geminiKeyExists) ? 'success' : 'warning',
+          message: (data.openaiKeyExists || data.geminiKeyExists) ? 'Environment variables loaded' : 'No API keys in environment',
+          details: `OpenAI Key: ${data.openaiKeyExists ? 'Present' : 'Missing'} (Length: ${data.openaiKeyLength})\nGemini Key: ${data.geminiKeyExists ? 'Present' : 'Missing'} (Length: ${data.geminiKeyLength})\nNode Env: ${data.nodeEnv}`
+        });
+      } else {
+        testResults.push({
+          name: 'Backend Environment',
+          status: 'error',
+          message: 'Failed to check environment',
+          details: 'Debug endpoint not responding'
+        });
+      }
+    } catch (error: any) {
+      testResults.push({
+        name: 'Backend Environment',
+        status: 'error',
+        message: 'Environment check failed',
+        details: error.message || 'Unknown error'
+      });
+    }
+
+    // Test 5: API Keys Configuration Check
+    try {
+      const response = await trpcClient.openai.testApiKeys.query();
+      const hasWorkingKey = response.openai.configured || response.gemini.configured;
+      testResults.push({
+        name: 'API Keys Configuration',
+        status: hasWorkingKey ? 'success' : 'warning',
+        message: hasWorkingKey ? 'API keys configured' : 'No API keys configured',
+        details: `OpenAI: ${response.openai.configured ? 'Configured' : 'Not configured'} (${response.openai.keyFormat})\nGemini: ${response.gemini.configured ? 'Configured' : 'Not configured'} (${response.gemini.keyFormat})\nRaw OpenAI Start: ${response.openai.rawKeyStart}\nRaw Gemini Start: ${response.gemini.rawKeyStart}`
+      });
+    } catch (error: any) {
+      testResults.push({
+        name: 'API Keys Configuration',
+        status: 'error',
+        message: 'Failed to check API keys',
+        details: error.message || 'Unknown error'
+      });
+    }
+
+    // Test 6: OpenAI API Functionality
     try {
       const response = await trpcClient.openai.chat.mutate({
         messages: [{ role: 'user', content: 'Hello' }],
@@ -94,7 +141,7 @@ export default function APITestScreen() {
         temperature: 0.7,
       });
       testResults.push({
-        name: 'OpenAI API',
+        name: 'OpenAI API Functionality',
         status: 'success',
         message: 'OpenAI is working',
         details: response.content.substring(0, 100) + '...'
@@ -102,14 +149,14 @@ export default function APITestScreen() {
     } catch (error: any) {
       if (error.message.includes('API key not configured')) {
         testResults.push({
-          name: 'OpenAI API',
+          name: 'OpenAI API Functionality',
           status: 'warning',
           message: 'API key not configured',
           details: 'Set OPENAI_API_KEY in .env file'
         });
       } else {
         testResults.push({
-          name: 'OpenAI API',
+          name: 'OpenAI API Functionality',
           status: 'error',
           message: 'OpenAI failed',
           details: error.message || 'Unknown error'
@@ -117,7 +164,7 @@ export default function APITestScreen() {
       }
     }
 
-    // Test 5: External AI APIs
+    // Test 7: External AI APIs
     try {
       const response = await fetch('https://toolkit.rork.com/text/llm/', {
         method: 'POST',
