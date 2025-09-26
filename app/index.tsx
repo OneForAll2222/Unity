@@ -180,6 +180,13 @@ export default function AuthScreen() {
           Get instant access to AI specialists for personalized 1-on-1 tutoring sessions, interactive learning courses, live mentoring, and professional guidance across multiple fields
         </Text>
         
+        <View style={styles.highlightBox}>
+          <Text style={styles.highlightTitle}>🎓 1-on-1 Personal Tutoring</Text>
+          <Text style={styles.highlightText}>
+            Book individual sessions with AI tutors for focused, personalized learning experiences tailored to your specific needs and learning style.
+          </Text>
+        </View>
+        
         <View style={styles.featuresContainer}>
           <View style={styles.featuresList}>
             <Text style={styles.featureListItem}>💻 Software Development & Coding</Text>
@@ -978,5 +985,26 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.3)',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
+  },
+  highlightBox: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 16,
+    padding: 20,
+    marginVertical: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  highlightTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  highlightText: {
+    fontSize: 15,
+    color: 'rgba(255, 255, 255, 0.9)',
+    textAlign: 'center',
+    lineHeight: 22,
   },
 });

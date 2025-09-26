@@ -20,29 +20,15 @@ const premiumItems: PaymentItem[] = [
     id: 'yearly-pro',
     name: 'Yearly Pro Subscription',
     price: 39.99,
-    description: 'Best value - Save 80% with annual billing. Unlock all specialists, unlimited ChatGPT-5, music studio, and advanced features',
+    description: 'Best value - Save 80% with annual billing ($3.33/month). Unlock all specialists, unlimited ChatGPT-5, music studio, 1-on-1 tutoring, and advanced features',
     category: 'subscription'
   },
   {
     id: 'weekly-pro',
     name: 'Weekly Pro Subscription',
     price: 7.99,
-    description: 'Perfect for short-term projects. Full access to all premium features',
+    description: 'Perfect for short-term projects. Full access to all premium features including 1-on-1 tutoring sessions',
     category: 'subscription'
-  },
-  {
-    id: 'ai-tutor-session',
-    name: '1-on-1 AI Tutoring Session',
-    price: 4.99,
-    description: 'Single personalized tutoring session with AI specialist (1 hour)',
-    category: 'service'
-  },
-  {
-    id: 'music-studio-access',
-    name: 'Music Studio Day Pass',
-    price: 2.99,
-    description: '24-hour access to full music production studio features',
-    category: 'service'
   }
 ];
 
