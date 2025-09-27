@@ -203,6 +203,30 @@ export default function AuthScreen() {
           Each specialist is powered by advanced ChatGPT 5 technology, providing expert-level guidance, personalized 1-on-1 tutoring sessions, live interactive lessons, and comprehensive learning experiences tailored to your specific needs and learning style. Book individual sessions with AI tutors for focused, personalized learning.
         </Text>
 
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, styles.primaryButton]}
+            onPress={() => {
+              handleHaptic();
+              setAuthMode('signin');
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.primaryButtonText}>Sign In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.secondaryButton]}
+            onPress={() => {
+              handleHaptic();
+              setAuthMode('signup');
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.secondaryButtonText}>Create Account</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.trialSection}>
           <View style={styles.trialToggleContainer}>
             <TouchableOpacity
@@ -317,30 +341,6 @@ export default function AuthScreen() {
               </TouchableOpacity>
             </View>
           )}
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, styles.primaryButton]}
-            onPress={() => {
-              handleHaptic();
-              setAuthMode('signin');
-            }}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Sign In</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton]}
-            onPress={() => {
-              handleHaptic();
-              setAuthMode('signup');
-            }}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.secondaryButtonText}>Create Account</Text>
-          </TouchableOpacity>
         </View>
       </View>
       
