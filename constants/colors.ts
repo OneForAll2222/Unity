@@ -1,17 +1,17 @@
-// App Color Palette - Darker Purple, Baby Blue, Baby Pink
+// App Color Palette - Black and Gold Gradient
 export const COLORS = {
   // Main gradient colors
-  DARK_PURPLE: '#990497', // Darker purple
-  BABY_BLUE: '#18CAD1',   // Baby blue
-  BABY_PINK: '#206BC7',   // Baby pink
+  DEEP_BLACK: '#000000',     // Pure black
+  RICH_GOLD: '#FFD700',      // Rich gold
+  DARK_GOLD: '#B8860B',      // Dark gold
   
   // Additional shades
-  DARK_PURPLE_LIGHT: '#5B21B6',
-  DARK_PURPLE_DARK: '#3C1A78',
-  BABY_BLUE_LIGHT: '#B0E0E6',
-  BABY_BLUE_DARK: '#6BB6FF',
-  BABY_PINK_LIGHT: '#FFE4E1',
-  BABY_PINK_DARK: '#F5A9B8',
+  CHARCOAL: '#1C1C1C',       // Dark charcoal
+  DARK_GRAY: '#2D2D2D',      // Dark gray
+  LIGHT_GOLD: '#FFF8DC',     // Light gold/cream
+  BRONZE: '#CD7F32',         // Bronze
+  AMBER: '#FFBF00',          // Amber gold
+  ANTIQUE_GOLD: '#C9B037',   // Antique gold
   
   // Utility colors
   WHITE: '#FFFFFF',
@@ -19,27 +19,28 @@ export const COLORS = {
   TRANSPARENT: 'transparent',
   
   // Text colors
-  TEXT_PRIMARY: '#FFFFFF',
-  TEXT_SECONDARY: 'rgba(255, 255, 255, 0.9)',
-  TEXT_TERTIARY: 'rgba(255, 255, 255, 0.7)',
+  TEXT_PRIMARY: '#FFD700',   // Gold text
+  TEXT_SECONDARY: 'rgba(255, 215, 0, 0.9)',  // Semi-transparent gold
+  TEXT_TERTIARY: 'rgba(255, 215, 0, 0.7)',   // More transparent gold
+  TEXT_ON_GOLD: '#000000',   // Black text on gold backgrounds
   
   // Background overlays
-  OVERLAY_LIGHT: 'rgba(255, 255, 255, 0.2)',
-  OVERLAY_MEDIUM: 'rgba(255, 255, 255, 0.15)',
-  OVERLAY_DARK: 'rgba(0, 0, 0, 0.3)',
+  OVERLAY_LIGHT: 'rgba(255, 215, 0, 0.2)',   // Light gold overlay
+  OVERLAY_MEDIUM: 'rgba(255, 215, 0, 0.15)', // Medium gold overlay
+  OVERLAY_DARK: 'rgba(0, 0, 0, 0.7)',        // Dark black overlay
 } as const;
 
 // Main app gradient
-export const MAIN_GRADIENT = [COLORS.DARK_PURPLE, COLORS.BABY_BLUE, COLORS.BABY_PINK] as const;
+export const MAIN_GRADIENT = [COLORS.DEEP_BLACK, COLORS.CHARCOAL, COLORS.RICH_GOLD] as const;
 
 // Tab bar gradient
-export const TAB_GRADIENT = [COLORS.DARK_PURPLE, COLORS.BABY_BLUE, COLORS.BABY_PINK] as const;
+export const TAB_GRADIENT = [COLORS.DEEP_BLACK, COLORS.DARK_GRAY, COLORS.DARK_GOLD] as const;
 
 // Message gradients
-export const USER_MESSAGE_GRADIENT = [COLORS.BABY_PINK, COLORS.BABY_BLUE, COLORS.DARK_PURPLE_LIGHT] as const;
-export const AI_MESSAGE_GRADIENT = [COLORS.DARK_PURPLE, COLORS.DARK_PURPLE_LIGHT, COLORS.BABY_PINK] as const;
+export const USER_MESSAGE_GRADIENT = [COLORS.DARK_GOLD, COLORS.AMBER, COLORS.RICH_GOLD] as const;
+export const AI_MESSAGE_GRADIENT = [COLORS.DEEP_BLACK, COLORS.CHARCOAL, COLORS.DARK_GRAY] as const;
 
 // Button gradients
-export const PRIMARY_BUTTON_GRADIENT = [COLORS.DARK_PURPLE, COLORS.BABY_BLUE] as const;
-export const SECONDARY_BUTTON_GRADIENT = [COLORS.BABY_PINK, COLORS.BABY_BLUE] as const;
-export const ACCENT_BUTTON_GRADIENT = [COLORS.BABY_BLUE, COLORS.BABY_PINK] as const;
+export const PRIMARY_BUTTON_GRADIENT = [COLORS.RICH_GOLD, COLORS.DARK_GOLD] as const;
+export const SECONDARY_BUTTON_GRADIENT = [COLORS.DEEP_BLACK, COLORS.CHARCOAL] as const;
+export const ACCENT_BUTTON_GRADIENT = [COLORS.AMBER, COLORS.ANTIQUE_GOLD] as const;
