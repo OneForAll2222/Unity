@@ -50,13 +50,7 @@ export default function SpecialistsScreen() {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    
-    if (!isPremium) {
-      setBlockedFeature('Music Production Studio');
-      setShowPremiumGate(true);
-      return;
-    }
-    
+    console.log('[Specialists] Navigating to Music Studio');
     router.push('/music/production');
   };
 
@@ -91,6 +85,7 @@ export default function SpecialistsScreen() {
             style={styles.featureCard}
             onPress={handleMusicStudioPress}
             activeOpacity={0.8}
+            testID="music-studio-button"
           >
             <LinearGradient
               colors={PRIMARY_BUTTON_GRADIENT}
