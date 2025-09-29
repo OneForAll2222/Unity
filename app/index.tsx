@@ -475,7 +475,7 @@ export default function AuthScreen() {
           >
             <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
               {rememberMe && (
-                <Check size={16} color={COLORS.DARK_PURPLE} />
+                <Check size={16} color={COLORS.DEEP_BLACK} />
               )}
             </View>
             <Text style={styles.rememberMeText}>Remember Me</Text>
@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: COLORS.DARK_PURPLE,
+    color: COLORS.DEEP_BLACK,
   },
   welcomeMainTitle: {
     fontSize: 36,
@@ -653,7 +653,7 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     fontSize: 18,
     fontWeight: '600',
-    color: COLORS.DARK_PURPLE,
+    color: COLORS.DEEP_BLACK,
   },
   secondaryButtonText: {
     fontSize: 18,
