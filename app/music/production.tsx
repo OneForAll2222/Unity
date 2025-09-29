@@ -154,21 +154,36 @@ export default function MusicProductionScreen() {
     try {
       const prompt = `Write creative song lyrics for a ${genre} song titled "${songTitle}" in the key of ${songKey} with a tempo of ${tempo} BPM. Make it catchy and memorable with verses, chorus, and bridge. ${lyrics ? `Build upon these existing lyrics: ${lyrics}` : ''}`;
       
+      console.log('🎵 Generating lyrics with prompt:', prompt);
       const response = await sendMessage(prompt, 'music');
-      setGeneratedLyrics(response);
+      console.log('🎵 Lyrics response received:', response);
       
-      // Show success message
-      Alert.alert(
-        '🎵 Lyrics Generated!', 
-        'AI has created custom lyrics for your song! Review them below and click "Use These Lyrics" to add them to your project.',
-        [{ text: 'Review Lyrics', onPress: () => {} }]
-      );
+      if (response && response.trim()) {
+        setGeneratedLyrics(response);
+        
+        // Show success message
+        Alert.alert(
+          '🎵 Lyrics Generated!', 
+          'AI has created custom lyrics for your song! Review them below and click "Use These Lyrics" to add them to your project.',
+          [{ text: 'Review Lyrics', onPress: () => {} }]
+        );
+      } else {
+        throw new Error('Empty response from AI');
+      }
     } catch (error: any) {
+      console.error('🎵 Lyrics generation error:', error);
       if (error.message === "NO_FREE_MESSAGES") {
         setShowPremiumGate(true);
         return;
       }
-      Alert.alert('Error', 'Failed to generate lyrics. Please try again.');
+      Alert.alert(
+        'Lyrics Generation Failed', 
+        `Unable to generate lyrics: ${error.message || 'Unknown error'}\n\nPlease check your internet connection and try again.`,
+        [
+          { text: 'Try Again', onPress: generateLyrics },
+          { text: 'Cancel', style: 'cancel' }
+        ]
+      );
     } finally {
       setIsLoading(false);
     }
@@ -182,17 +197,40 @@ export default function MusicProductionScreen() {
 
     setIsLoading(true);
     try {
-      const prompt = `Analyze these song lyrics and provide feedback on structure, rhyme scheme, emotional impact, and suggestions for improvement. Also suggest chord progressions and arrangement ideas for a ${genre} song in ${songKey}: ${lyrics}`;
+      const prompt = `Analyze these song lyrics and provide detailed feedback on structure, rhyme scheme, emotional impact, and suggestions for improvement. Also suggest chord progressions and arrangement ideas for a ${genre} song in ${songKey}: ${lyrics}`;
       
+      console.log('🎼 Analyzing song with prompt:', prompt);
       const response = await sendMessage(prompt, 'music');
-      Alert.alert('Song Analysis', response);
+      console.log('🎼 Analysis response received:', response);
+      
+      if (response && response.trim()) {
+        Alert.alert(
+          '🎼 Song Analysis Complete', 
+          response,
+          [
+            { text: 'Apply Suggestions', onPress: () => {
+              Alert.alert('🎵 Suggestions Applied!', 'The analysis suggestions have been noted for your song improvement.');
+            }},
+            { text: 'Close', style: 'cancel' }
+          ]
+        );
+      } else {
+        throw new Error('Empty response from AI');
+      }
     } catch (error: any) {
-      console.error('Error analyzing song:', error);
+      console.error('🎼 Song analysis error:', error);
       if (error.message === "NO_FREE_MESSAGES") {
         setShowPremiumGate(true);
         return;
       }
-      Alert.alert('Error', 'Failed to analyze song. Please try again.');
+      Alert.alert(
+        'Song Analysis Failed', 
+        `Unable to analyze song: ${error.message || 'Unknown error'}\n\nPlease check your internet connection and try again.`,
+        [
+          { text: 'Try Again', onPress: analyzeSong },
+          { text: 'Cancel', style: 'cancel' }
+        ]
+      );
     } finally {
       setIsLoading(false);
     }
@@ -286,25 +324,43 @@ export default function MusicProductionScreen() {
 
     setIsLoading(true);
     try {
-      const prompt = `Generate a ${genre} beat pattern and drum sequence for a song in ${songKey} at ${tempo} BPM. Include kick, snare, hi-hat patterns and suggest bass line progression.`;
+      const prompt = `Generate a detailed ${genre} beat pattern and drum sequence for a song in ${songKey} at ${tempo} BPM. Include specific kick, snare, hi-hat patterns and suggest bass line progression. Provide practical music production advice.`;
       
+      console.log('🥁 Generating beat with prompt:', prompt);
       const response = await sendMessage(prompt, 'music');
-      Alert.alert(
-        '🥁 Beat Generated!', 
-        `AI has created a custom ${genre} beat for your song!\n\n${response}\n\nThe beat pattern has been optimized for ${tempo} BPM in ${songKey}. You can now use this as a foundation for your track.`,
-        [
-          { text: 'Generate Another', style: 'cancel' },
-          { text: 'Use This Beat', onPress: () => {
-            Alert.alert('🎵 Beat Added!', 'The AI-generated beat has been added to your project and is ready for recording!');
-          }}
-        ]
-      );
+      console.log('🥁 Beat response received:', response);
+      
+      if (response && response.trim()) {
+        Alert.alert(
+          '🥁 Beat Generated!', 
+          `AI has created a custom ${genre} beat for your song!\n\n${response.substring(0, 200)}${response.length > 200 ? '...' : ''}\n\nThe beat pattern has been optimized for ${tempo} BPM in ${songKey}. You can now use this as a foundation for your track.`,
+          [
+            { text: 'View Full Details', onPress: () => {
+              Alert.alert('🥁 Complete Beat Pattern', response);
+            }},
+            { text: 'Generate Another', style: 'cancel' },
+            { text: 'Use This Beat', onPress: () => {
+              Alert.alert('🎵 Beat Added!', 'The AI-generated beat has been added to your project and is ready for recording!');
+            }}
+          ]
+        );
+      } else {
+        throw new Error('Empty response from AI');
+      }
     } catch (error: any) {
+      console.error('🥁 Beat generation error:', error);
       if (error.message === "NO_FREE_MESSAGES") {
         setShowPremiumGate(true);
         return;
       }
-      Alert.alert('Error', 'Failed to generate beat. Please try again.');
+      Alert.alert(
+        'Beat Generation Failed', 
+        `Unable to generate beat: ${error.message || 'Unknown error'}\n\nPlease check your internet connection and try again.`,
+        [
+          { text: 'Try Again', onPress: generateBeat },
+          { text: 'Cancel', style: 'cancel' }
+        ]
+      );
     } finally {
       setIsLoading(false);
     }
@@ -1009,7 +1065,7 @@ Bridge:"
               colors={['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={{ flex: 1 }}
+              style={styles.headerBackground}
             />
           ),
           headerTintColor: '#fff',
@@ -1416,5 +1472,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1F2937',
     marginBottom: 8,
+  },
+  headerBackground: {
+    flex: 1,
   },
 });
