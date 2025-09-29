@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Lock, Crown, X, CreditCard } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useUser } from '@/providers/UserProvider';
+import { APP_CONFIG } from '@/constants/config';
 
 interface PremiumGateProps {
   visible: boolean;
@@ -23,6 +24,12 @@ export function PremiumGate({ visible, onClose, feature, requiredItem, isNoFreeM
   const { isPremium, purchasedItems, hasUnlimitedAccess, isTrialActive, getRemainingTrialDays } = useUser();
 
   const hasAccess = () => {
+    // Development mode: bypass all payment gates
+    if (APP_CONFIG.DEVELOPMENT.BYPASS_PAYMENTS) {
+      console.log('Development mode: bypassing premium gate');
+      return true;
+    }
+    
     if (hasUnlimitedAccess()) return true;
     if (requiredItem && purchasedItems.includes(requiredItem)) return true;
     return false;

@@ -9,6 +9,14 @@ export const APP_CONFIG = {
   // PayPal Configuration
   PAYPAL_CLIENT_ID: process.env.EXPO_PUBLIC_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'your-paypal-client-id-here',
   
+  // Development settings
+  DEVELOPMENT: {
+    // Set to true to enable unlimited access for testing
+    UNLIMITED_ACCESS: __DEV__ || process.env.NODE_ENV === 'development',
+    // Set to true to bypass payment gates
+    BYPASS_PAYMENTS: __DEV__ || process.env.NODE_ENV === 'development',
+  },
+  
   // Feature flags
   FEATURES: {
     STRIPE_ENABLED: true,

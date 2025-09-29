@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Platform } from 'react-native';
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { APP_CONFIG } from '@/constants/config';
 
 interface UserContextType {
   username: string;
@@ -231,6 +232,12 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
   }, []);
 
   const hasUnlimitedAccess = useCallback((): boolean => {
+    // Development mode: unlimited access for testing
+    if (APP_CONFIG.DEVELOPMENT.UNLIMITED_ACCESS) {
+      console.log('Development mode: granting unlimited access');
+      return true;
+    }
+    
     // Check if user has premium, active trial, or active subscription
     if (isPremium) return true;
     if (isTrialActive && trialExpiresAt && trialExpiresAt > new Date()) return true;
@@ -306,6 +313,12 @@ const [UserContextProvider, useUserContext] = createContextHook<UserContextType>
 
   const useFreeMessage = useCallback(async (): Promise<boolean> => {
     console.log(`useFreeMessage called on ${Platform.OS} - isPremium:`, isPremium, 'freeMessagesRemaining:', freeMessagesRemaining);
+    
+    // Development mode: always allow messages
+    if (APP_CONFIG.DEVELOPMENT.UNLIMITED_ACCESS) {
+      console.log('Development mode: allowing unlimited messages');
+      return true;
+    }
     
     if (hasUnlimitedAccess()) {
       console.log('User has unlimited access, allowing message');
