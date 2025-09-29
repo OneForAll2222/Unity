@@ -11,6 +11,12 @@ const chatInputSchema = z.object({
   temperature: z.number().default(0.7),
 });
 
+const chatOutputSchema = z.object({
+  content: z.string(),
+  usage: z.record(z.string(), z.any()).optional(),
+  provider: z.string(),
+});
+
 async function callOpenAI(input: any) {
   const apiKey = process.env.OPENAI_API_KEY;
   
@@ -39,9 +45,12 @@ async function callOpenAI(input: any) {
   }
 
   const data = await response.json();
+  const content = data.choices[0]?.message?.content || 'Sorry, I couldn\'t generate a response.';
+  
+  // Ensure we return a clean, serializable response
   return {
-    content: data.choices[0]?.message?.content || 'Sorry, I couldn\'t generate a response.',
-    usage: data.usage,
+    content: String(content),
+    usage: data.usage || {},
     provider: 'openai',
   };
 }
@@ -87,9 +96,10 @@ async function callGemini(input: any) {
   const data = await response.json();
   const content = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I couldn\'t generate a response.';
   
+  // Ensure we return a clean, serializable response
   return {
-    content,
-    usage: data.usageMetadata,
+    content: String(content),
+    usage: data.usageMetadata || {},
     provider: 'gemini',
   };
 }
@@ -117,8 +127,11 @@ async function callRorkAI(input: any) {
   }
 
   const data = await response.json();
+  const content = data.completion || 'Sorry, I couldn\'t generate a response.';
+  
+  // Ensure we return a clean, serializable response
   return {
-    content: data.completion || 'Sorry, I couldn\'t generate a response.',
+    content: String(content),
     usage: data.usage || {},
     provider: 'rork-ai',
   };
@@ -259,11 +272,25 @@ export const testApiKeysProcedure = publicProcedure
 
 export const chatProcedure = publicProcedure
   .input(chatInputSchema)
+  .output(chatOutputSchema)
   .mutation(async ({ input }) => {
     try {
-      return await callWithFallback(input);
+      const result = await callWithFallback(input);
+      
+      // Ensure the response is properly serializable and matches schema
+      const response = {
+        content: String(result.content || ''),
+        usage: result.usage || {},
+        provider: String(result.provider || 'unknown'),
+      };
+      
+      // Validate the response against the schema
+      return chatOutputSchema.parse(response);
     } catch (error) {
       console.error('Chat API Error:', error);
-      throw error;
+      
+      // Return a serializable error response
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      throw new Error(String(errorMessage));
     }
   });
