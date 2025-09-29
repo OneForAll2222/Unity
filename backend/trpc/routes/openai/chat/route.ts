@@ -94,6 +94,36 @@ async function callGemini(input: any) {
   };
 }
 
+async function callRorkAI(input: any) {
+  console.log('Attempting Rork AI fallback...');
+  
+  const response = await fetch('https://toolkit.rork.com/text/llm/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      messages: input.messages,
+      model: input.model,
+      max_tokens: input.max_tokens,
+      temperature: input.temperature,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.text();
+    console.error('Rork AI Error:', errorData);
+    throw new Error(`Rork AI Error: ${response.status} ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return {
+    content: data.completion || 'Sorry, I couldn\'t generate a response.',
+    usage: data.usage || {},
+    provider: 'rork-ai',
+  };
+}
+
 async function callWithFallback(input: any) {
   const openaiKey = process.env.OPENAI_API_KEY;
   const geminiKey = process.env.GEMINI_API_KEY;
@@ -129,10 +159,6 @@ async function callWithFallback(input: any) {
     geminiKeyFormat: geminiKey ? `${geminiKey.substring(0, 8)}...` : 'not set'
   });
   
-  if (!hasOpenAI && !hasGemini) {
-    throw new Error('❌ No API keys configured. Please add your OpenAI or Gemini API key to the .env file. See API_KEYS_SETUP.md for instructions.');
-  }
-  
   // Try OpenAI first (preferred for GPT models)
   if (hasOpenAI) {
     try {
@@ -144,11 +170,22 @@ async function callWithFallback(input: any) {
         try {
           return await callGemini(input);
         } catch (geminiError) {
-          console.error('Both APIs failed:', { openai: error, gemini: geminiError });
-          throw new Error('❌ Both OpenAI and Gemini APIs failed. Please check your API keys, internet connection, and API quotas. See console for detailed errors.');
+          console.log('Both OpenAI and Gemini failed, trying Rork AI fallback:', { openai: error, gemini: geminiError });
+          try {
+            return await callRorkAI(input);
+          } catch (rorkError) {
+            console.error('All APIs failed:', { openai: error, gemini: geminiError, rork: rorkError });
+            throw new Error('❌ All AI services failed. Please check your API keys, internet connection, and API quotas. See console for detailed errors.');
+          }
         }
       } else {
-        throw error;
+        // Try Rork AI as fallback when only OpenAI is configured but fails
+        try {
+          return await callRorkAI(input);
+        } catch (rorkError) {
+          console.error('Both OpenAI and Rork AI failed:', { openai: error, rork: rorkError });
+          throw new Error('❌ Both OpenAI and Rork AI failed. Please check your API keys, internet connection, and API quotas. See console for detailed errors.');
+        }
       }
     }
   }
@@ -159,12 +196,24 @@ async function callWithFallback(input: any) {
       console.log('Using Gemini API...');
       return await callGemini(input);
     } catch (error) {
-      console.error('Gemini API failed:', error);
-      throw error;
+      console.log('Gemini failed, trying Rork AI fallback:', error);
+      try {
+        return await callRorkAI(input);
+      } catch (rorkError) {
+        console.error('Both Gemini and Rork AI failed:', { gemini: error, rork: rorkError });
+        throw new Error('❌ Both Gemini and Rork AI failed. Please check your API keys, internet connection, and API quotas. See console for detailed errors.');
+      }
     }
   }
   
-  throw new Error('No working API configuration found.');
+  // If no API keys are configured, use Rork AI as the default
+  console.log('No API keys configured, using Rork AI as default...');
+  try {
+    return await callRorkAI(input);
+  } catch (error) {
+    console.error('Rork AI failed:', error);
+    throw new Error('❌ No API keys configured and Rork AI fallback failed. Please add your OpenAI or Gemini API key to the .env file. See API_KEYS_SETUP.md for instructions.');
+  }
 }
 
 // Test procedure to check API key configuration
