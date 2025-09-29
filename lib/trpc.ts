@@ -10,7 +10,6 @@ const getBaseUrl = () => {
   return APP_CONFIG.API_BASE_URL;
 };
 
-// Create tRPC client with error handling
 export const trpcClient = trpc.createClient({
   links: [
     httpLink({
@@ -22,7 +21,6 @@ export const trpcClient = trpc.createClient({
           return response;
         } catch (error) {
           console.warn('tRPC request failed:', error);
-          // Return a mock response to prevent crashes
           return new Response(JSON.stringify({ error: 'Network error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
