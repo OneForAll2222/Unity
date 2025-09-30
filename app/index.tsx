@@ -643,7 +643,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   primaryButton: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.RICH_GOLD,
   },
   secondaryButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -748,7 +748,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   checkboxChecked: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.RICH_GOLD,
     borderColor: '#fff',
   },
   rememberMeText: {
@@ -829,7 +829,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.RICH_GOLD,
     alignSelf: 'flex-start',
   },
   toggleKnobActive: {

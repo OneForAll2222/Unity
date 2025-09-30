@@ -11,6 +11,9 @@ import { StripeWrapper } from "@/components/StripeWrapper";
 import { STRIPE_CONFIG } from "@/constants/stripe";
 import { trpc, trpcClient } from "@/lib/trpc";
 import { validateConfig } from "@/constants/config";
+import { LinearGradient } from "expo-linear-gradient";
+import { MAIN_GRADIENT, COLORS } from "@/constants/colors";
+import { View } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,7 +27,7 @@ function RootLayoutNav() {
         backgroundColor: 'transparent',
       },
       headerTransparent: true,
-      headerTintColor: '#fff',
+      headerTintColor: COLORS.TEXT_PRIMARY,
       gestureEnabled: true,
     }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -142,7 +145,15 @@ export default function RootLayout() {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <AppContent />
+          <View style={{ flex: 1 }}>
+            <LinearGradient
+              colors={MAIN_GRADIENT as any}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ position: 'absolute', inset: 0 }}
+            />
+            <AppContent />
+          </View>
         </GestureHandlerRootView>
       </QueryClientProvider>
     </trpc.Provider>

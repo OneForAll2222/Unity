@@ -3,6 +3,7 @@ import { Text, StyleSheet, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MessageCircle, Crown } from 'lucide-react-native';
 import { useUser } from '@/providers/UserProvider';
+import { PRIMARY_BUTTON_GRADIENT, COLORS } from '@/constants/colors';
 
 interface FreeMessageCounterProps {
   style?: any;
@@ -25,21 +26,19 @@ export function FreeMessageCounter({ style }: FreeMessageCounterProps) {
   if (isPremium) {
     return (
       <LinearGradient
-        colors={['#10B981', '#059669']}
+        colors={PRIMARY_BUTTON_GRADIENT as any}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={[styles.container, style]}
       >
-        <Crown size={16} color="#fff" />
+        <Crown size={16} color={COLORS.TEXT_ON_GOLD} />
         <Text style={styles.premiumText}>Premium</Text>
       </LinearGradient>
     );
   }
 
   const getCounterColor = (): [string, string] => {
-    if (freeMessagesRemaining <= 1) return ['#EF4444', '#DC2626'];
-    if (freeMessagesRemaining <= 2) return ['#F59E0B', '#D97706'];
-    return ['#3B82F6', '#2563EB'];
+    return [COLORS.RICH_GOLD, COLORS.DARK_GOLD];
   };
 
   return (
@@ -49,7 +48,7 @@ export function FreeMessageCounter({ style }: FreeMessageCounterProps) {
       end={{ x: 1, y: 1 }}
       style={[styles.container, style]}
     >
-      <MessageCircle size={16} color="#fff" />
+      <MessageCircle size={16} color={COLORS.TEXT_ON_GOLD} />
       <Text style={styles.counterText}>
         {freeMessagesRemaining} free message{freeMessagesRemaining !== 1 ? 's' : ''} left
       </Text>
@@ -69,11 +68,11 @@ const styles = StyleSheet.create({
   counterText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#fff',
+    color: COLORS.TEXT_ON_GOLD,
   },
   premiumText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#fff',
+    color: COLORS.TEXT_ON_GOLD,
   },
 });

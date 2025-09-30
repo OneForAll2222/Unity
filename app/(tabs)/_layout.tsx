@@ -5,7 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { View, StyleSheet, Animated, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { TAB_GRADIENT } from "@/constants/colors";
+import { TAB_GRADIENT, COLORS } from "@/constants/colors";
 import * as Haptics from "expo-haptics";
 
 // Enhanced animated tab icon component with haptic feedback
@@ -177,8 +177,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#FFFFFF",
-        tabBarInactiveTintColor: "rgba(255, 255, 255, 0.6)",
+        tabBarActiveTintColor: COLORS.TEXT_PRIMARY,
+        tabBarInactiveTintColor: COLORS.TEXT_TERTIARY,
         headerShown: false,
         tabBarStyle: {
           backgroundColor: 'transparent',
@@ -209,13 +209,17 @@ export default function TabLayout() {
         },
         tabBarBackground: () => (
           <View style={StyleSheet.absoluteFillObject}>
-            <BlurView 
-              intensity={50} 
-              tint="dark" 
-              style={StyleSheet.absoluteFillObject} 
-            />
+            {Platform.OS !== 'web' ? (
+              <BlurView 
+                intensity={50} 
+                tint="dark" 
+                style={StyleSheet.absoluteFillObject} 
+              />
+            ) : (
+              <View style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(0,0,0,0.3)' }]} />
+            )}
             <LinearGradient
-              colors={tabGradientColors}
+              colors={tabGradientColors as any}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={StyleSheet.absoluteFillObject}

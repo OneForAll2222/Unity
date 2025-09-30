@@ -17,7 +17,7 @@ import { Music, Lock } from "lucide-react-native";
 import { useUser } from "@/providers/UserProvider";
 import { PremiumGate } from "@/components/PremiumGate";
 import { FreeMessageCounter } from "@/components/FreeMessageCounter";
-import { MAIN_GRADIENT, PRIMARY_BUTTON_GRADIENT } from "@/constants/colors";
+import { MAIN_GRADIENT, PRIMARY_BUTTON_GRADIENT, COLORS } from "@/constants/colors";
 
 const { width } = Dimensions.get("window");
 const cardWidth = (width - 48) / 2;
@@ -95,12 +95,12 @@ export default function SpecialistsScreen() {
             >
               <View style={styles.featureContent}>
                 <View style={styles.featureIconContainer}>
-                  <Music size={28} color="#fff" />
+                  <Music size={28} color={COLORS.TEXT_ON_GOLD} />
                 </View>
                 <View style={styles.featureTextContainer}>
                   <View style={styles.featureTitleContainer}>
                     <Text style={styles.featureTitle}>🎵 Music Studio</Text>
-                    {!isPremium && <Lock size={16} color="#fff" />}
+                    {!isPremium && <Lock size={16} color={COLORS.TEXT_ON_GOLD} />}
                   </View>
                   <Text style={styles.featureDescription}>
                     Create, record, and produce music with AI-powered tools
@@ -133,11 +133,11 @@ export default function SpecialistsScreen() {
                     style={styles.cardGradient}
                   >
                     <View style={styles.iconContainer}>
-                      <Icon size={32} color="#fff" />
+                      <Icon size={32} color={COLORS.TEXT_ON_GOLD} />
                     </View>
                     <View style={styles.cardTitleContainer}>
                       <Text style={styles.cardTitle}>{specialist.name}</Text>
-                      {showLock && <Lock size={14} color="rgba(255, 255, 255, 0.8)" />}
+                      {showLock && <Lock size={14} color={COLORS.TEXT_TERTIARY} />}
                       {isFreeSpecialist && (
                         <View style={styles.freeTag}>
                           <Text style={styles.freeText}>FREE</Text>
@@ -194,18 +194,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: "bold",
-    color: "#fff",
+    color: COLORS.TEXT_PRIMARY,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: COLORS.TEXT_TERTIARY,
     fontWeight: '600',
     marginBottom: 4,
   },
   description: {
     fontSize: 18,
-    color: "rgba(255, 255, 255, 0.9)",
+    color: COLORS.TEXT_SECONDARY,
   },
   scrollContent: {
     paddingHorizontal: 16,
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: COLORS.OVERLAY_LIGHT,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 16,
@@ -245,18 +245,18 @@ const styles = StyleSheet.create({
   featureTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
+    color: COLORS.TEXT_PRIMARY,
     marginBottom: 4,
   },
   featureDescription: {
     fontSize: 14,
-    color: "rgba(255, 255, 255, 0.9)",
+    color: COLORS.TEXT_SECONDARY,
     lineHeight: 18,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
+    color: COLORS.TEXT_PRIMARY,
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: COLORS.OVERLAY_LIGHT,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -297,12 +297,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#fff",
+    color: COLORS.TEXT_PRIMARY,
     flex: 1,
   },
   cardDescription: {
     fontSize: 12,
-    color: "rgba(255, 255, 255, 0.9)",
+    color: COLORS.TEXT_SECONDARY,
     lineHeight: 16,
   },
   colorIndicator: {
@@ -312,10 +312,10 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: COLORS.RICH_GOLD,
   },
   freeTag: {
-    backgroundColor: 'rgba(16, 185, 129, 0.9)',
+    backgroundColor: COLORS.LIGHT_GOLD,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 8,
@@ -324,10 +324,10 @@ const styles = StyleSheet.create({
   freeText: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#fff',
+    color: COLORS.TEXT_ON_GOLD,
   },
   premiumTag: {
-    backgroundColor: 'rgba(147, 51, 234, 0.9)',
+    backgroundColor: COLORS.AMBER,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 8,
@@ -336,6 +336,6 @@ const styles = StyleSheet.create({
   premiumText: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#fff',
+    color: COLORS.TEXT_ON_GOLD,
   },
 });
