@@ -38,7 +38,9 @@ export const TAB_GRADIENT = [COLORS.DEEP_BLACK, COLORS.DARK_GRAY, COLORS.DARK_GO
 
 // Message gradients
 export const USER_MESSAGE_GRADIENT = [COLORS.DARK_GOLD, COLORS.AMBER, COLORS.RICH_GOLD] as const;
-export const AI_MESSAGE_GRADIENT = [COLORS.DEEP_BLACK, COLORS.CHARCOAL, COLORS.DARK_GRAY] as const;
+// Center-highlighted gold gradient for AI messages (light center, darker edges)
+export const AI_MESSAGE_GRADIENT = [COLORS.DARK_GOLD, COLORS.RICH_GOLD, COLORS.DARK_GOLD] as const;
+export const AI_MESSAGE_LOCATIONS = [0, 0.5, 1] as readonly [number, number, ...number[]];
 
 // Button gradients
 export const PRIMARY_BUTTON_GRADIENT = [COLORS.RICH_GOLD, COLORS.DARK_GOLD] as const;

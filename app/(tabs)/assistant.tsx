@@ -21,7 +21,7 @@ import { useUser } from "@/providers/UserProvider";
 import { router } from "expo-router";
 import { PremiumGate } from "@/components/PremiumGate";
 import { FreeMessageCounter } from "@/components/FreeMessageCounter";
-import { MAIN_GRADIENT, USER_MESSAGE_GRADIENT, AI_MESSAGE_GRADIENT, PRIMARY_BUTTON_GRADIENT, SECONDARY_BUTTON_GRADIENT } from "@/constants/colors";
+import { MAIN_GRADIENT, USER_MESSAGE_GRADIENT, AI_MESSAGE_GRADIENT, PRIMARY_BUTTON_GRADIENT, SECONDARY_BUTTON_GRADIENT, AI_MESSAGE_LOCATIONS } from "@/constants/colors";
 
 interface Message {
   id: string;
@@ -162,8 +162,9 @@ export default function AssistantScreen() {
                   ? USER_MESSAGE_GRADIENT 
                   : AI_MESSAGE_GRADIENT
                 }
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                locations={message.isUser ? undefined : AI_MESSAGE_LOCATIONS}
+                start={{ x: 0.2, y: 0.2 }}
+                end={{ x: 0.8, y: 0.8 }}
                 style={[
                   styles.messageBubble,
                   message.isUser ? styles.userMessage : styles.aiMessage,
@@ -186,8 +187,9 @@ export default function AssistantScreen() {
             {isLoading && (
               <LinearGradient
                 colors={AI_MESSAGE_GRADIENT}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                locations={AI_MESSAGE_LOCATIONS}
+                start={{ x: 0.2, y: 0.2 }}
+                end={{ x: 0.8, y: 0.8 }}
                 style={styles.loadingContainer}
               >
                 <ActivityIndicator size="small" color="#fff" />
