@@ -171,7 +171,7 @@ export default function AuthScreen() {
   const renderWelcomeScreen = () => (
     <View style={styles.welcomeContainer}>
       <View style={styles.logoContainer}>
-        <Text style={styles.welcomeMainTitle}>Welcome</Text>
+        <Text style={styles.welcomeMainTitle}>Unity</Text>
         <Text style={styles.poweredByText}>Powered by ChatGPT 5</Text>
       </View>
 
