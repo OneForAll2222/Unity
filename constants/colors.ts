@@ -19,10 +19,10 @@ export const COLORS = {
   TRANSPARENT: 'transparent',
   
   // Text colors
-  TEXT_PRIMARY: '#FFD700',   // Gold text
-  TEXT_SECONDARY: 'rgba(255, 215, 0, 0.9)',  // Semi-transparent gold
-  TEXT_TERTIARY: 'rgba(255, 215, 0, 0.7)',   // More transparent gold
-  TEXT_ON_GOLD: '#000000',   // Black text on gold backgrounds
+  TEXT_PRIMARY: '#FFFFFF',
+  TEXT_SECONDARY: 'rgba(255, 255, 255, 0.9)',
+  TEXT_TERTIARY: 'rgba(255, 255, 255, 0.7)',
+  TEXT_ON_GOLD: '#FFFFFF',
   
   // Background overlays
   OVERLAY_LIGHT: 'rgba(255, 215, 0, 0.2)',   // Light gold overlay

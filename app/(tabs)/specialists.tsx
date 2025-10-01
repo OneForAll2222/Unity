@@ -137,7 +137,7 @@ export default function SpecialistsScreen() {
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
                   <LinearGradient
-                    colors={specialist.gradient}
+                    colors={PRIMARY_BUTTON_GRADIENT}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.cardGradient}

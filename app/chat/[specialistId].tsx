@@ -35,7 +35,7 @@ interface Message {
     prompt?: string;
   };
 }
-import { COLORS } from "@/constants/colors";
+import { COLORS, MAIN_GRADIENT, AI_MESSAGE_GRADIENT, AI_MESSAGE_LOCATIONS, SECONDARY_BUTTON_GRADIENT } from "@/constants/colors";
 
 export default function ChatScreen() {
   const params = useLocalSearchParams<{ specialistId?: string | string[] }>();
@@ -273,7 +273,7 @@ export default function ChatScreen() {
         }}
       />
       <LinearGradient
-        colors={specialist.chatGradient || specialist.gradient}
+        colors={MAIN_GRADIENT as any}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.container}
@@ -315,7 +315,7 @@ export default function ChatScreen() {
                 <View key={message.id}>
                   {message.isUser ? (
                     <LinearGradient
-                      colors={['#7C3AED', '#A855F7', '#EC4899']}
+                      colors={SECONDARY_BUTTON_GRADIENT as any}
                       start={{ x: 0, y: 0 }}
                       end={{ x: 1, y: 1 }}
                       style={[styles.messageBubble, styles.userMessage]}
@@ -355,8 +355,9 @@ export default function ChatScreen() {
                     </LinearGradient>
                   ) : (
                     <LinearGradient
-                      colors={specialist.chatGradient || specialist.gradient}
-                      start={{ x: 0, y: 0 }}
+                      colors={AI_MESSAGE_GRADIENT as any}
+                      locations={AI_MESSAGE_LOCATIONS as any}
+                      start={{ x: 0.5, y: 0.5 }}
                       end={{ x: 1, y: 1 }}
                       style={[
                         styles.messageBubble,
@@ -442,8 +443,9 @@ export default function ChatScreen() {
               ))}
               {(isLoading || isGeneratingImage) && (
                 <LinearGradient
-                  colors={specialist.chatGradient || specialist.gradient}
-                  start={{ x: 0, y: 0 }}
+                  colors={AI_MESSAGE_GRADIENT as any}
+                  locations={AI_MESSAGE_LOCATIONS as any}
+                  start={{ x: 0.5, y: 0.5 }}
                   end={{ x: 1, y: 1 }}
                   style={[
                     styles.loadingContainer,
@@ -624,14 +626,14 @@ const styles = StyleSheet.create({
   },
   aiMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "transparent",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+    borderWidth: 0,
+    borderColor: "transparent",
   },
   codingAiMessage: {
     backgroundColor: "#1F2937",
@@ -677,8 +679,8 @@ const styles = StyleSheet.create({
     textShadow: '0.5px 0.5px 1px rgba(0, 0, 0, 0.2)',
   },
   aiMessageText: {
-    color: "#111827",
-    fontWeight: "400",
+    color: "#FFFFFF",
+    fontWeight: "600",
   },
   codingChatContainer: {
     backgroundColor: "#000",
@@ -726,16 +728,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "transparent",
     borderRadius: 18,
     alignSelf: "flex-start",
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderWidth: 0,
+    borderColor: "transparent",
   },
   loadingText: {
     marginLeft: 8,
-    color: "#374151",
-    fontWeight: "500",
+    color: "#FFFFFF",
+    fontWeight: "700",
   },
   inputContainer: {
     flexDirection: "row",
@@ -744,19 +746,21 @@ const styles = StyleSheet.create({
     paddingBottom: Platform.OS === 'ios' ? 24 : 16,
     alignItems: "flex-end",
     borderTopWidth: 1,
-    borderTopColor: "#E5E7EB",
+    borderTopColor: "rgba(255, 215, 0, 0.3)",
     marginBottom: Platform.OS === 'ios' ? 10 : 0,
   },
   textInput: {
     flex: 1,
-    backgroundColor: "#F9FAFB",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     borderRadius: 24,
     paddingHorizontal: 16,
     paddingVertical: 10,
     marginRight: 8,
     fontSize: 16,
     maxHeight: 100,
-    color: "#1F2937",
+    color: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "rgba(255, 215, 0, 0.4)",
   },
   codeButton: {
     width: 44,
@@ -771,7 +775,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#2563EB",
+    backgroundColor: "#B8860B",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 8,
@@ -780,7 +784,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#2563EB",
+    backgroundColor: "#B8860B",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -964,7 +968,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#8B5CF6",
+    backgroundColor: "#B8860B",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 8,
