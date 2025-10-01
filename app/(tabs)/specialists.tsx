@@ -65,7 +65,7 @@ export default function SpecialistsScreen() {
         <View style={styles.header}>
           <View style={styles.headerTop}>
             <View style={styles.headerContent}>
-              <Text style={styles.title}>One for All</Text>
+              <Text style={styles.title}>Unity</Text>
               <Text style={styles.subtitle}>Powered by ChatGPT-5</Text>
               <Text style={styles.description}>Choose Your AI Specialist</Text>
             </View>
