@@ -86,6 +86,9 @@ export default function SpecialistsScreen() {
             onPress={handleMusicStudioPress}
             activeOpacity={0.8}
             testID="music-studio-button"
+            accessibilityRole="button"
+            accessibilityLabel="Open Music Studio"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           >
             <LinearGradient
               colors={PRIMARY_BUTTON_GRADIENT}
@@ -123,8 +126,15 @@ export default function SpecialistsScreen() {
                 <TouchableOpacity
                   key={specialist.id}
                   style={styles.card}
-                  onPress={() => handleSpecialistPress(specialist.id)}
+                  onPress={() => {
+                    console.log('[Specialists] Card pressed:', specialist.id);
+                    handleSpecialistPress(specialist.id);
+                  }}
                   activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Open ${specialist.name} chat`}
+                  testID={`specialist-card-${specialist.id}`}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
                   <LinearGradient
                     colors={specialist.gradient}

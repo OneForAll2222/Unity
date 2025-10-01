@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Send, Code, Copy, Check, Music, Image as ImageIcon, Download } from "lucide-react-native";
+import { Send, Code, Copy, Check, Music, Image as ImageIcon, Download, ArrowLeft } from "lucide-react-native";
 import { useLocalSearchParams, Stack, router } from "expo-router";
 import { specialists } from "@/constants/specialists";
 import { useAI } from "@/providers/AIProvider";
@@ -35,10 +35,13 @@ interface Message {
     prompt?: string;
   };
 }
+import { COLORS } from "@/constants/colors";
 
 export default function ChatScreen() {
-  const { specialistId } = useLocalSearchParams();
-  const specialist = specialists.find((s) => s.id === specialistId);
+  const params = useLocalSearchParams<{ specialistId?: string | string[] }>();
+  const specialistIdParam = params.specialistId;
+  const resolvedSpecialistId = Array.isArray(specialistIdParam) ? specialistIdParam[0] : (specialistIdParam ?? "");
+  const specialist = specialists.find((s) => s.id === resolvedSpecialistId);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [codeInput, setCodeInput] = useState("");
@@ -247,12 +250,23 @@ export default function ChatScreen() {
           headerStyle: {
             backgroundColor: 'transparent',
           },
-          headerTintColor: '#fff',
+          headerTintColor: COLORS.TEXT_PRIMARY,
           headerTitleStyle: {
             fontWeight: '600',
             fontSize: 18,
           },
-
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => router.back()}
+              accessibilityRole="button"
+              accessibilityLabel="Go back"
+              testID="chat-back-button"
+              style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, paddingVertical: 6 }}
+            >
+              <ArrowLeft size={20} color={COLORS.TEXT_PRIMARY} />
+              <Text style={{ color: COLORS.TEXT_PRIMARY, fontSize: 16, marginLeft: 6 }}>Back</Text>
+            </TouchableOpacity>
+          ),
           headerRight: () => (
             <FreeMessageCounter style={{ marginRight: Platform.OS === 'ios' ? 0 : 16 }} />
           ),
