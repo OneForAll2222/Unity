@@ -33,7 +33,7 @@ import { useAI } from "@/providers/AIProvider";
 import { PremiumGate } from "@/components/PremiumGate";
 // Audio recording temporarily disabled due to expo-av deprecation
 import * as Haptics from "expo-haptics";
-
+import { MAIN_GRADIENT, COLORS } from "@/constants/colors";
 
 
 
@@ -1062,13 +1062,13 @@ Bridge:"
           },
           headerBackground: () => (
             <LinearGradient
-              colors={['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7']}
+              colors={MAIN_GRADIENT as any}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.headerBackground}
             />
           ),
-          headerTintColor: '#fff',
+          headerTintColor: COLORS.TEXT_PRIMARY,
           headerTitleStyle: {
             fontWeight: '700',
             fontSize: 18,
@@ -1078,7 +1078,7 @@ Bridge:"
         }}
       />
       <LinearGradient
-        colors={['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD']}
+        colors={MAIN_GRADIENT as any}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.container}
@@ -1174,11 +1174,13 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     marginHorizontal: 16,
     marginTop: 16,
     borderRadius: 16,
     padding: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 215, 0, 0.25)',
   },
   tab: {
     flex: 1,
@@ -1190,31 +1192,35 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   activeTab: {
-    backgroundColor: '#fff',
-    shadowColor: '#4FACFE',
+    backgroundColor: 'rgba(255, 215, 0, 0.15)',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 215, 0, 0.3)',
   },
   tabText: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#9CA3AF',
+    fontWeight: '600',
+    color: '#FFFFFF',
     marginLeft: 6,
   },
   activeTabText: {
-    color: '#4FACFE',
-    fontWeight: '600',
+    color: COLORS.RICH_GOLD,
+    fontWeight: '700',
   },
   content: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
     marginHorizontal: 16,
     marginTop: 8,
     marginBottom: 16,
     borderRadius: 20,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 215, 0, 0.2)',
   },
   tabContent: {
     flex: 1,
@@ -1222,12 +1228,12 @@ const styles = StyleSheet.create({
   section: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+    borderBottomColor: 'rgba(255, 215, 0, 0.15)',
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#111827',
+    color: COLORS.WHITE,
     marginBottom: 16,
   },
   inputGroup: {
@@ -1236,17 +1242,17 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#1F2937',
+    color: COLORS.WHITE,
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#F9FAFB',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 12,
     padding: 14,
     fontSize: 16,
-    color: '#1F2937',
+    color: COLORS.WHITE,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: 'rgba(255, 215, 0, 0.3)',
   },
   row: {
     flexDirection: 'row',
@@ -1256,15 +1262,15 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   picker: {
-    backgroundColor: '#F9FAFB',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 12,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: 'rgba(255, 215, 0, 0.3)',
   },
   pickerText: {
     fontSize: 16,
-    color: '#111827',
+    color: COLORS.WHITE,
     fontWeight: '600',
   },
   sliderContainer: {
@@ -1276,7 +1282,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#4FACFE',
+    backgroundColor: COLORS.DARK_GOLD,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -1288,24 +1294,24 @@ const styles = StyleSheet.create({
   sliderTrack: {
     flex: 1,
     height: 6,
-    backgroundColor: '#E5E7EB',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 3,
     marginHorizontal: 12,
     overflow: 'hidden',
   },
   sliderFill: {
     height: '100%',
-    backgroundColor: '#4FACFE',
+    backgroundColor: COLORS.RICH_GOLD,
     borderRadius: 3,
   },
   lyricsInput: {
-    backgroundColor: '#F9FAFB',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
-    color: '#1F2937',
+    color: COLORS.WHITE,
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: 'rgba(255, 215, 0, 0.3)',
     height: 200,
     textAlignVertical: 'top',
     marginBottom: 16,
@@ -1325,18 +1331,18 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   primaryButton: {
-    backgroundColor: '#4FACFE',
+    backgroundColor: COLORS.DARK_GOLD,
   },
   secondaryButton: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.CHARCOAL,
     borderWidth: 2,
-    borderColor: '#4FACFE',
+    borderColor: COLORS.RICH_GOLD,
   },
   exportButton: {
-    backgroundColor: '#10B981',
+    backgroundColor: COLORS.DARK_GOLD,
   },
   beatButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: COLORS.DARK_GOLD,
     marginTop: 12,
   },
   buttonText: {
@@ -1347,26 +1353,26 @@ const styles = StyleSheet.create({
   generatedContent: {
     marginTop: 20,
     padding: 16,
-    backgroundColor: '#F0F9FF',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#BAE6FD',
+    borderColor: 'rgba(255, 215, 0, 0.25)',
   },
   generatedTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#0369A1',
+    fontWeight: '700',
+    color: COLORS.WHITE,
     marginBottom: 12,
   },
   generatedText: {
     fontSize: 14,
-    color: '#111827',
+    color: COLORS.WHITE,
     lineHeight: 20,
     marginBottom: 12,
     fontWeight: '500',
   },
   useButton: {
-    backgroundColor: '#0EA5E9',
+    backgroundColor: COLORS.DARK_GOLD,
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -1381,10 +1387,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
     padding: 20,
-    backgroundColor: 'rgba(79, 172, 254, 0.05)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: 'rgba(79, 172, 254, 0.1)',
+    borderColor: 'rgba(255, 215, 0, 0.15)',
   },
   recordingHeader: {
     alignItems: 'center',
@@ -1393,25 +1399,25 @@ const styles = StyleSheet.create({
   recordingTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#111827',
+    color: COLORS.WHITE,
     marginBottom: 4,
   },
   recordingSubtitle: {
     fontSize: 14,
-    color: '#6B7280',
+    color: 'rgba(255,255,255,0.8)',
     textAlign: 'center',
   },
   recordButton: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#4FACFE',
+    backgroundColor: COLORS.DARK_GOLD,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
-    shadowColor: '#4FACFE',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.4,
     shadowRadius: 8,
     elevation: 8,
   },
@@ -1440,9 +1446,9 @@ const styles = StyleSheet.create({
   recordingStatus: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#111827',
+    color: COLORS.WHITE,
     textAlign: 'center',
-    textShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
+    textShadow: '0px 1px 2px rgba(0, 0, 0, 0.6)',
   },
   playbackContainer: {
     flexDirection: 'row',
@@ -1462,7 +1468,7 @@ const styles = StyleSheet.create({
   playbackText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1F2937',
+    color: COLORS.WHITE,
   },
   settingRow: {
     marginBottom: 20,
@@ -1470,7 +1476,7 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1F2937',
+    color: COLORS.WHITE,
     marginBottom: 8,
   },
   headerBackground: {

@@ -20,7 +20,6 @@ import { specialists } from "@/constants/specialists";
 import { useAI } from "@/providers/AIProvider";
 import { useUser } from "@/providers/UserProvider";
 import { PremiumGate } from "@/components/PremiumGate";
-import { FreeMessageCounter } from "@/components/FreeMessageCounter";
 import * as Haptics from "expo-haptics";
 
 interface Message {
@@ -35,7 +34,7 @@ interface Message {
     prompt?: string;
   };
 }
-import { COLORS, MAIN_GRADIENT, AI_MESSAGE_GRADIENT, AI_MESSAGE_LOCATIONS, SECONDARY_BUTTON_GRADIENT } from "@/constants/colors";
+import { COLORS, MAIN_GRADIENT, AI_MESSAGE_GRADIENT, AI_MESSAGE_LOCATIONS } from "@/constants/colors";
 
 export default function ChatScreen() {
   const params = useLocalSearchParams<{ specialistId?: string | string[] }>();
@@ -267,9 +266,7 @@ export default function ChatScreen() {
               <Text style={{ color: COLORS.TEXT_PRIMARY, fontSize: 16, marginLeft: 6 }}>Back</Text>
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <FreeMessageCounter style={{ marginRight: Platform.OS === 'ios' ? 0 : 16 }} />
-          ),
+          headerRight: () => null,
         }}
       />
       <LinearGradient
@@ -288,15 +285,7 @@ export default function ChatScreen() {
             keyboardVerticalOffset={100}
           >
             <LinearGradient
-              colors={specialist.id === "therapist" ? [
-                'rgba(255, 255, 255, 0.25)',
-                'rgba(255, 255, 255, 0.18)',
-                'rgba(255, 255, 255, 0.22)'
-              ] : [
-                'rgba(255, 255, 255, 0.15)',
-                'rgba(255, 255, 255, 0.08)',
-                'rgba(255, 255, 255, 0.12)'
-              ]}
+              colors={[COLORS.DEEP_BLACK + '99', COLORS.CHARCOAL + '99', COLORS.DEEP_BLACK + 'CC'] as any}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.chatBackground}
@@ -315,7 +304,7 @@ export default function ChatScreen() {
                 <View key={message.id}>
                   {message.isUser ? (
                     <LinearGradient
-                      colors={SECONDARY_BUTTON_GRADIENT as any}
+                      colors={[COLORS.CHARCOAL, COLORS.DARK_GRAY] as any}
                       start={{ x: 0, y: 0 }}
                       end={{ x: 1, y: 1 }}
                       style={[styles.messageBubble, styles.userMessage]}
@@ -361,7 +350,7 @@ export default function ChatScreen() {
                       end={{ x: 1, y: 1 }}
                       style={[
                         styles.messageBubble,
-                        specialist.id === "coding" ? styles.codingAiMessage : styles.aiMessage,
+                        styles.aiMessage,
                         styles.aiGradientMessage
                       ]}
                     >
@@ -371,7 +360,7 @@ export default function ChatScreen() {
                         </View>
                         <Text style={[
                           styles.senderName,
-                          specialist.id === "coding" ? styles.codingAiSenderName : styles.aiSenderName,
+                          styles.aiSenderName,
                           styles.gradientSenderName,
                           specialist.id === "therapist" && styles.therapistSenderName
                         ]}>
@@ -380,13 +369,13 @@ export default function ChatScreen() {
                       </View>
                       <Text style={[
                         styles.messageText,
-                        specialist.id === "coding" ? styles.codingAiMessageText : styles.aiMessageText,
+                        styles.aiMessageText,
                         styles.gradientMessageText,
                         specialist.id === "therapist" && styles.therapistMessageText
                       ]}>
                         {message.text}
                       </Text>
-                      {message.image && (
+                      {message.image && message.image.base64Data ? (
                         <View style={styles.imageContainer}>
                           <Image
                             source={{ uri: `data:${message.image.mimeType};base64,${message.image.base64Data}` }}
@@ -406,7 +395,7 @@ export default function ChatScreen() {
                             </Text>
                           )}
                         </View>
-                      )}
+                      ) : null}
                       {message.code && (
                         <View style={styles.codeBlock}>
                           <View style={styles.codeHeader}>
@@ -427,7 +416,6 @@ export default function ChatScreen() {
                       )}
                       <Text style={[
                         styles.timestamp,
-                        specialist.id === "coding" && styles.codingTimestamp,
                         styles.gradientTimestamp,
                         specialist.id === "therapist" && styles.therapistTimestamp
                       ]}>
@@ -449,14 +437,12 @@ export default function ChatScreen() {
                   end={{ x: 1, y: 1 }}
                   style={[
                     styles.loadingContainer,
-                    specialist.id === "coding" && styles.codingLoadingContainer,
                     styles.loadingGradientContainer
                   ]}
                 >
                   <ActivityIndicator size="small" color="#FFFFFF" />
                   <Text style={[
                     styles.loadingText,
-                    specialist.id === "coding" && styles.codingLoadingText,
                     styles.loadingGradientText,
                     specialist.id === "therapist" && styles.therapistLoadingText
                   ]}>
@@ -635,16 +621,6 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: "transparent",
   },
-  codingAiMessage: {
-    backgroundColor: "#1F2937",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: "#374151",
-  },
   messageHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -664,10 +640,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   aiSenderName: {
-    color: "#6B7280",
-  },
-  codingAiSenderName: {
-    color: "#9CA3AF",
+    color: "#FFFFFF",
   },
   messageText: {
     fontSize: 16,
@@ -685,10 +658,7 @@ const styles = StyleSheet.create({
   codingChatContainer: {
     backgroundColor: "#000",
   },
-  codingAiMessageText: {
-    color: "#F9FAFB",
-    fontWeight: "400",
-  },
+
   codeBlock: {
     marginTop: 8,
     backgroundColor: "#1F2937",
@@ -720,10 +690,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     color: "#6B7280",
   },
-  codingTimestamp: {
-    color: "#9CA3AF",
-    opacity: 0.8,
-  },
+
   loadingContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -852,14 +819,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1F2937",
     color: "#fff",
   },
-  codingLoadingContainer: {
-    backgroundColor: "#1F2937",
-    borderColor: "#374151",
-  },
-  codingLoadingText: {
-    color: "#D1D5DB",
-    fontWeight: "500",
-  },
+
   aiGradientMessage: {
     backgroundColor: "transparent",
     borderWidth: 0,

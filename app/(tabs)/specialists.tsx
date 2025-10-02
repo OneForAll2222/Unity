@@ -16,7 +16,6 @@ import * as Haptics from "expo-haptics";
 import { Music, Lock } from "lucide-react-native";
 import { useUser } from "@/providers/UserProvider";
 import { PremiumGate } from "@/components/PremiumGate";
-import { FreeMessageCounter } from "@/components/FreeMessageCounter";
 import { MAIN_GRADIENT, PRIMARY_BUTTON_GRADIENT, COLORS } from "@/constants/colors";
 
 const { width } = Dimensions.get("window");
@@ -69,7 +68,6 @@ export default function SpecialistsScreen() {
               <Text style={styles.subtitle}>Powered by ChatGPT-5</Text>
               <Text style={styles.description}>Choose Your AI Specialist</Text>
             </View>
-            <FreeMessageCounter />
           </View>
         </View>
 
@@ -138,7 +136,7 @@ export default function SpecialistsScreen() {
                 >
                   <LinearGradient
                     colors={PRIMARY_BUTTON_GRADIENT}
-                    start={{ x: 0, y: 0 }}
+                    start={{ x: 0.5, y: 0.5 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.cardGradient}
                   >

@@ -145,7 +145,7 @@ export default function RootLayout() {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: COLORS.DEEP_BLACK }}>
             <LinearGradient
               colors={MAIN_GRADIENT as any}
               start={{ x: 0, y: 0 }}
