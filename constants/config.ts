@@ -6,8 +6,6 @@ export const APP_CONFIG = {
   // Stripe Configuration
   STRIPE_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_YOUR_ACTUAL_TEST_PUBLISHABLE_KEY_HERE',
   
-  // PayPal Configuration
-  PAYPAL_CLIENT_ID: process.env.EXPO_PUBLIC_PAYPAL_CLIENT_ID || process.env.PAYPAL_CLIENT_ID || process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'your-paypal-client-id-here',
   
   // Development settings
   DEVELOPMENT: {
@@ -20,7 +18,7 @@ export const APP_CONFIG = {
   // Feature flags
   FEATURES: {
     STRIPE_ENABLED: true,
-    PAYPAL_ENABLED: true,
+
     TRPC_ENABLED: true,
   },
 };
@@ -33,9 +31,6 @@ export function validateConfig() {
     warnings.push('Stripe publishable key not configured');
   }
   
-  if (APP_CONFIG.FEATURES.PAYPAL_ENABLED && (APP_CONFIG.PAYPAL_CLIENT_ID.includes('your-paypal') || !APP_CONFIG.PAYPAL_CLIENT_ID)) {
-    warnings.push('PayPal client ID not configured');
-  }
   
   if (warnings.length > 0) {
     console.warn('Configuration warnings:', warnings);

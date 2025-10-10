@@ -22,7 +22,6 @@ import {
   AlertTriangle,
   Info
 } from 'lucide-react-native';
-import { PayPalButton } from '@/components/PayPalButton';
 import { StripeButton } from '@/components/StripeButton';
 import { PaymentItem } from '@/providers/PaymentProvider';
 import { useUser } from '@/providers/UserProvider';
@@ -57,7 +56,7 @@ interface TestResult {
   id: string;
   name: string;
   status: 'pending' | 'success' | 'failed';
-  method: 'paypal' | 'stripe';
+  method: 'stripe';
   timestamp: Date;
   error?: string;
   amount?: number;
@@ -82,7 +81,7 @@ export default function PaymentTestScreen() {
     );
   };
 
-  const handlePaymentSuccess = (item: PaymentItem, method: 'paypal' | 'stripe') => {
+  const handlePaymentSuccess = (item: PaymentItem, method: 'stripe') => {
     const resultId = `${method}-${item.id}-${Date.now()}`;
     updateTestResult(resultId, {
       status: 'success',
@@ -104,7 +103,7 @@ export default function PaymentTestScreen() {
     });
   };
 
-  const handlePaymentError = (error: string, item: PaymentItem, method: 'paypal' | 'stripe') => {
+  const handlePaymentError = (error: string, item: PaymentItem, method: 'stripe') => {
     const resultId = `${method}-${item.id}-${Date.now()}`;
     updateTestResult(resultId, {
       status: 'failed',
@@ -223,7 +222,7 @@ export default function PaymentTestScreen() {
               <View style={styles.infoContent}>
                 <Text style={styles.infoTitle}>Payment Testing Environment</Text>
                 <Text style={styles.infoText}>
-                  Test both PayPal and Stripe payment flows. All transactions are in test mode.
+                  Test Stripe payment flows. All transactions are in test mode.
                 </Text>
                 <View style={styles.platformInfo}>
                   <View style={styles.platformItem}>
@@ -287,12 +286,6 @@ export default function PaymentTestScreen() {
               )}
 
               <View style={styles.paymentButtons}>
-                <PayPalButton
-                  item={item}
-                  onSuccess={() => handlePaymentSuccess(item, 'paypal')}
-                  onError={(error) => handlePaymentError(error, item, 'paypal')}
-                  style={styles.paymentButton}
-                />
                 <StripeButton
                   item={item}
                   onSuccess={() => handlePaymentSuccess(item, 'stripe')}

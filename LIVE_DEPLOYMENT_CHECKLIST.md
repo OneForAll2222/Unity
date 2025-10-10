@@ -36,9 +36,6 @@
 # Stripe Keys (Replace with your live keys)
 EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_LIVE_PUBLISHABLE_KEY_HERE
 
-# PayPal Keys (Replace with your live keys)  
-EXPO_PUBLIC_PAYPAL_CLIENT_ID=your-live-paypal-client-id-here
-
 # API Configuration
 EXPO_PUBLIC_RORK_API_BASE_URL=https://your-production-api.com
 ```
@@ -49,12 +46,7 @@ EXPO_PUBLIC_RORK_API_BASE_URL=https://your-production-api.com
 - [ ] Configure live payment methods
 - [ ] Set up live product/price IDs
 
-### 3. PayPal Configuration
-- [ ] Replace sandbox client ID with live client ID
-- [ ] Configure live PayPal app settings
-- [ ] Update webhook URLs for production
-
-### 4. Backend/API Setup
+### 3. Backend/API Setup
 - [ ] Deploy backend to production server
 - [ ] Configure production database
 - [ ] Set up live API endpoints
@@ -114,7 +106,6 @@ EXPO_PUBLIC_RORK_API_BASE_URL=https://your-production-api.com
 
 2. **Payment Configuration**
    - Switch to live Stripe keys
-   - Configure live PayPal
    - Test payment flows
 
 3. **API Integration**

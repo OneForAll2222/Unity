@@ -41,20 +41,6 @@ This guide will help you integrate all the necessary API keys and services for y
 
 **Note**: The system will try OpenAI first, then fallback to Gemini if OpenAI fails.
 
-### 3. PayPal Integration (Optional)
-
-**Status**: ✅ Code Ready - Optional
-
-1. Go to [PayPal Developer](https://developer.paypal.com/developer/applications/)
-2. Create a new app
-3. Get your Client ID and Secret
-4. Update your `.env` file:
-   ```env
-   EXPO_PUBLIC_PAYPAL_CLIENT_ID=your_paypal_client_id_here
-   PAYPAL_CLIENT_SECRET=your_paypal_client_secret_here
-   EXPO_PUBLIC_PAYPAL_MODE=live
-   ```
-
 ## 🚀 Deployment Configuration
 
 ### For Production Deployment:
@@ -66,7 +52,6 @@ This guide will help you integrate all the necessary API keys and services for y
 
 2. **Verify All Keys Are Live Keys**:
    - Stripe: `pk_live_...` and `sk_live_...`
-   - PayPal: Set mode to `live`
 
 ## 🧪 Testing Your Integration
 
@@ -90,7 +75,7 @@ This guide will help you integrate all the necessary API keys and services for y
 - [ ] Stripe Publishable Key (pk_live_...)
 - [ ] Stripe Secret Key (sk_live_...)
 - [ ] OpenAI API Key (sk-proj-...) OR Gemini API Key (AIzaSy...)
-- [ ] PayPal Client ID (optional)
+
 - [ ] Production API Base URL
 
 ### ✅ Testing Complete

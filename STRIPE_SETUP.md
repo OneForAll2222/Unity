@@ -31,7 +31,7 @@ Your secret key (sk_live_...) should only be used on your backend server for:
 - Stripe SDK installed (`@stripe/stripe-react-native`)
 - Stripe configuration file created
 - Stripe payment button component
-- Updated payments screen with both PayPal and Stripe options
+- Updated payments screen with Stripe payment options
 
 ⚠️ **What You Need to Complete:**
 
@@ -85,4 +85,4 @@ Currently, the Stripe button simulates payments. To process real payments:
 4. Test with Stripe's test cards
 5. Deploy with live keys for production
 
-Your app now supports both PayPal and Stripe payments! 🎉
+Your app now supports Stripe payments! 🎉

@@ -65,18 +65,6 @@ export default function ConfigurationScreen() {
       required: true,
     });
 
-    // Check PayPal Configuration (optional)
-    const paypalClientId = process.env.EXPO_PUBLIC_PAYPAL_CLIENT_ID;
-    configChecks.push({
-      name: 'PayPal Client ID',
-      status: paypalClientId && !paypalClientId.includes('your-paypal') ? 'success' : 'warning',
-      message: paypalClientId && !paypalClientId.includes('your-paypal') 
-        ? 'Configured' 
-        : 'Optional - Add for PayPal payments',
-      value: paypalClientId?.substring(0, 20) + '...',
-      required: false,
-    });
-
     // Environment-specific checks
     configChecks.push({
       name: 'Environment',
@@ -145,11 +133,6 @@ GEMINI_API_KEY=AIzaSyYOUR_GEMINI_API_KEY
 
 # API Base URL (Update for production)
 EXPO_PUBLIC_RORK_API_BASE_URL=https://your-domain.com
-
-# PayPal Configuration (Optional)
-EXPO_PUBLIC_PAYPAL_CLIENT_ID=your_paypal_client_id
-PAYPAL_CLIENT_SECRET=your_paypal_client_secret
-EXPO_PUBLIC_PAYPAL_MODE=live
 
 # Admin Configuration
 ADMIN_PASSWORD=MySecureAdmin2024!`;

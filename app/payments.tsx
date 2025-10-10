@@ -9,7 +9,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArrowLeft, ShoppingCart, Star, Clock, BookOpen, History, Crown } from 'lucide-react-native';
-import { PayPalButton } from '@/components/PayPalButton';
 import { StripeButton } from '@/components/StripeButton';
 import { PaymentItem } from '@/providers/PaymentProvider';
 import { useUser } from '@/providers/UserProvider';
@@ -176,12 +175,6 @@ export default function PaymentsScreen() {
               )}
 
               <View style={styles.paymentButtons}>
-                <PayPalButton
-                  item={item}
-                  onSuccess={() => handlePaymentSuccess(item)}
-                  onError={(error) => handlePaymentError(error, item)}
-                  style={styles.paymentButton}
-                />
                 <StripeButton
                   item={item}
                   onSuccess={() => handlePaymentSuccess(item)}
@@ -199,7 +192,7 @@ export default function PaymentsScreen() {
             >
               <Text style={styles.securityTitle}>Secure Payments</Text>
               <Text style={styles.securityText}>
-                All payments are processed securely through PayPal and Stripe. Your financial information is protected with industry-standard encryption.
+                All payments are processed securely through Stripe. Your financial information is protected with industry-standard encryption.
               </Text>
             </LinearGradient>
           </View>

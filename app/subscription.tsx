@@ -10,7 +10,6 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArrowLeft, Crown, Star, Zap, FileText, Check, Calendar, Clock } from 'lucide-react-native';
-import { PayPalButton } from '@/components/PayPalButton';
 import { StripeButton } from '@/components/StripeButton';
 import { PaymentItem } from '@/providers/PaymentProvider';
 import { useUser } from '@/providers/UserProvider';
@@ -284,12 +283,6 @@ export default function SubscriptionScreen() {
             <View style={styles.paymentSection}>
               <Text style={styles.paymentTitle}>Choose Payment Method</Text>
               <View style={styles.paymentButtons}>
-                <PayPalButton
-                  item={subscriptionPlans.find(plan => plan.id === `${selectedPlan}-pro`)!}
-                  onSuccess={() => handlePaymentSuccess(subscriptionPlans.find(plan => plan.id === `${selectedPlan}-pro`)!)}
-                  onError={(error) => handlePaymentError(error, subscriptionPlans.find(plan => plan.id === `${selectedPlan}-pro`)!)}
-                  style={styles.paymentButton}
-                />
                 <StripeButton
                   item={subscriptionPlans.find(plan => plan.id === `${selectedPlan}-pro`)!}
                   onSuccess={() => handlePaymentSuccess(subscriptionPlans.find(plan => plan.id === `${selectedPlan}-pro`)!)}
@@ -307,7 +300,7 @@ export default function SubscriptionScreen() {
             >
               <Text style={styles.securityTitle}>Secure & Trusted</Text>
               <Text style={styles.securityText}>
-                All payments are processed securely through PayPal and Stripe. Cancel anytime with no hidden fees.
+                All payments are processed securely through Stripe. Cancel anytime with no hidden fees.
               </Text>
             </LinearGradient>
           </View>
