@@ -35,8 +35,8 @@ export const specialists = [
     icon: MessageCircle,
     gradient: PRIMARY_BUTTON_GRADIENT,
     chatGradient: AI_MESSAGE_GRADIENT,
-    welcomeMessage: "Hello! I'm your General AI Assistant powered by ChatGPT-5, available for free to help with any questions or tasks you have. I can assist with general information, basic problem-solving, casual conversations, and much more. Whether you need quick answers, brainstorming help, or just want to chat, I'm here for you! What can I help you with today?",
-    isFree: true,
+    welcomeMessage: "Hello! I'm your General AI Assistant. I can help with quick answers, brainstorming, writing, summaries, explanations, and everyday tasks across topics. What can I help you with today?",
+    tier: "premium",
   },
   {
     id: "language-translator",
@@ -175,7 +175,7 @@ export const specialists = [
     icon: Flower2,
     gradient: ["#43e97b", "#38f9d7"] as const,
     chatGradient: ["#43e97b", "#38f9d7", "#667eea"] as const,
-    welcomeMessage: "Welcome to your personal gardening assistant! 🌱 I'm here to help you grow beautiful plants and maintain a thriving garden. I can provide personalized advice based on your location, climate, soil type, and specific gardening goals. Whether you're a beginner or experienced gardener, I can help with plant identification, care schedules, pest management, seasonal planning, and much more. What gardening challenge can I help you with today?",
+    welcomeMessage: "Welcome to the Gardening Expert. This specialist has moved to premium access. Please upgrade to continue with gardening assistance.",
     tier: "premium",
   },
   {

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Mic, MicOff, Send, Volume2, ArrowLeft, Flower2, MapPin, Thermometer } from "lucide-react-native";
+import { Mic, MicOff, Send, Volume2, ArrowLeft, MessageCircle, Sparkles } from "lucide-react-native";
 // Audio recording temporarily disabled due to expo-av deprecation
 import * as Haptics from "expo-haptics";
 import { useAI } from "@/providers/AIProvider";
@@ -34,7 +34,7 @@ export default function AssistantScreen() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Welcome to your personal gardening assistant! 🌱 I'm here to help you grow beautiful plants and maintain a thriving garden. I can provide personalized advice based on your location, climate, soil type, and specific gardening goals. Whether you're a beginner or experienced gardener, I can help with plant identification, care schedules, pest management, seasonal planning, and much more. What gardening challenge can I help you with today?",
+      text: "Welcome to your General AI Assistant! I can help with quick answers, brainstorming, writing, summaries, explanations, and everyday tasks across topics. What can I help you with today?",
       isUser: false,
       timestamp: new Date(),
     },
@@ -78,7 +78,7 @@ export default function AssistantScreen() {
     setIsLoading(true);
 
     try {
-      const response = await sendMessage(inputText, "gardening");
+      const response = await sendMessage(inputText, "general");
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -125,10 +125,10 @@ export default function AssistantScreen() {
             </TouchableOpacity>
             <View style={styles.headerContent}>
               <View style={styles.titleContainer}>
-                <Flower2 size={28} color="#fff" style={styles.titleIcon} />
-                <Text style={styles.title}>Gardening Expert</Text>
+                <MessageCircle size={28} color="#fff" style={styles.titleIcon} />
+                <Text style={styles.title}>General Assistant</Text>
               </View>
-              <Text style={styles.subtitle}>Plant Care & Garden Planning</Text>
+              <Text style={styles.subtitle}>Ask anything. Get helpful answers.</Text>
             </View>
             <FreeMessageCounter style={{ marginTop: 8 }} />
           </View>
@@ -200,12 +200,12 @@ export default function AssistantScreen() {
 
           <View style={styles.quickActions}>
             <TouchableOpacity style={styles.quickActionButton}>
-              <MapPin size={16} color="#43e97b" />
-              <Text style={styles.quickActionText}>My Location</Text>
+              <Sparkles size={16} color="#43e97b" />
+              <Text style={styles.quickActionText}>Ideas</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.quickActionButton}>
-              <Thermometer size={16} color="#43e97b" />
-              <Text style={styles.quickActionText}>Climate Info</Text>
+              <MessageCircle size={16} color="#43e97b" />
+              <Text style={styles.quickActionText}>Summarize</Text>
             </TouchableOpacity>
           </View>
 
@@ -214,7 +214,7 @@ export default function AssistantScreen() {
               style={[styles.textInput, { maxHeight: 100 }]}
               value={inputText}
               onChangeText={setInputText}
-              placeholder="Ask about plants, pests, soil, seasons..."
+              placeholder="Ask anything... writing, coding, tips, summaries, ideas"
               placeholderTextColor="#999"
               multiline
               onSubmitEditing={handleSend}
