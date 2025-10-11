@@ -1,4 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/app/music/production.tsx b/app/music/production.tsx
 index c03ad2a04196e08a87ea3e54e9d4e54c3deb88c9..f4b7d36edd2afdf9dcca4213e31d0071d12bba78 100644
 --- a/app/music/production.tsx
@@ -198,6 +197,4 @@ index c03ad2a04196e08a87ea3e54e9d4e54c3deb88c9..f4b7d36edd2afdf9dcca4213e31d0071
    const resetMixer = () => {
      if (Platform.OS !== 'web') {
        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-     } 
-EOF
-)
+     }
