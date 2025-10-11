@@ -21,19 +21,21 @@ const { width } = Dimensions.get("window");
 const cardWidth = (width - 60) / 2; // Account for padding and margin
 
 export default function LearningScreen() {
-  const { isPremium } = useUser();
+  const { hasUnlimitedAccess } = useUser();
   const [showPremiumGate, setShowPremiumGate] = useState<boolean>(false);
+  // Trial and subscription users also have unlimited access, so reuse the helper.
+  const userHasUnlimitedAccess = hasUnlimitedAccess();
 
   const handleCategoryPress = (categoryId: string) => {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-    
-    if (!isPremium) {
+
+    if (!userHasUnlimitedAccess) {
       setShowPremiumGate(true);
       return;
     }
-    
+
     router.push(`/learning/${categoryId}`);
   };
 
@@ -80,11 +82,13 @@ export default function LearningScreen() {
                       <View style={styles.textContent}>
                         <View style={styles.categoryTitleContainer}>
                           <Text style={styles.categoryTitle}>{category.title}</Text>
-                          {!isPremium && <Lock size={16} color="rgba(255, 255, 255, 0.8)" />}
+                          {!userHasUnlimitedAccess && (
+                            <Lock size={16} color="rgba(255, 255, 255, 0.8)" />
+                          )}
                         </View>
                         <Text style={styles.categoryDescription}>
                           {category.description}
-                          {!isPremium && ' (Premium)'}
+                          {!userHasUnlimitedAccess && ' (Premium)'}
                         </Text>
                         <View style={styles.statsContainer}>
                           <Text style={styles.lessonCount}>
