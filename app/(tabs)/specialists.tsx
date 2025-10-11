@@ -1,66 +1,221 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/constants/specialists.ts b/constants/specialists.ts
-index 2d99e96e91bbc1f0331a7ab00be0c5527326a43f..1f7e3eef409b00fdcba336ae78b36efea418eea9 100644
---- a/constants/specialists.ts
-+++ b/constants/specialists.ts
-@@ -149,55 +149,55 @@ export const specialists = [
-     tier: "premium",
-   },
-   {
-     id: "travel-planner",
-     name: "Travel Planner",
-     description: "Trip planning, destinations & travel tips",
-     icon: MapPin,
-     gradient: PRIMARY_BUTTON_GRADIENT,
-     chatGradient: AI_MESSAGE_GRADIENT,
-     welcomeMessage: "Bon voyage! ✈️ I'm your Travel Planner specialist. I can help you plan amazing trips, suggest destinations, find the best deals, create itineraries, provide travel tips, recommend accommodations, and help you navigate travel requirements. Where would you like to explore next?",
-     tier: "premium",
-   },
-   {
-     id: "fitness-coach",
-     name: "Fitness Coach",
-     description: "Workout plans, nutrition & wellness guidance",
-     icon: Dumbbell,
-     gradient: ["#ff9a9e", "#fecfef"] as const,
-     chatGradient: ["#ff9a9e", "#fecfef", "#ffecd2"] as const,
-     welcomeMessage: "Hey there, fitness enthusiast! 💪 I'm your Fitness Coach specialist. I can help you create workout plans, provide nutrition guidance, set fitness goals, track progress, suggest exercises, and motivate you on your wellness journey. Remember: consult healthcare professionals for medical advice. Ready to get fit?",
-     tier: "premium",
-   },
-   {
-     id: "gardening",
-     name: "Gardening Expert",
--    description: "Plant care, garden planning & growing tips",
-+    description: "Premium all-purpose assistant for complex tasks",
-     icon: Flower2,
-     gradient: ["#43e97b", "#38f9d7"] as const,
-     chatGradient: ["#43e97b", "#38f9d7", "#667eea"] as const,
--    welcomeMessage: "Welcome to the Gardening Expert. This specialist has moved to premium access. Please upgrade to continue with gardening assistance.",
-+    welcomeMessage: "Welcome to your premium General Assistant. This versatile AI can help with deep research, long-form writing, strategic planning, detailed explanations, and creative problem-solving across domains. Please upgrade to keep working with these advanced capabilities.",
-     tier: "premium",
-   },
-   {
-     id: "coding",
-     name: "Coding Expert",
-     description: "Debug, optimize, and learn programming",
-     icon: Code,
-     gradient: PRIMARY_BUTTON_GRADIENT,
-     chatGradient: AI_MESSAGE_GRADIENT,
-     welcomeMessage: "Hello! I'm your coding expert powered by ChatGPT-5. I can help you debug code, suggest optimizations, explain programming concepts, and review your code for best practices. Share your code or ask me anything about programming!",
-     isFree: true,
-   },
-   {
-     id: "medical",
-     name: "Medical Advisor",
-     description: "Health guidance and medical information",
-     icon: Heart,
-     gradient: ["#f093fb", "#f5576c"] as const,
-     chatGradient: ["#f093fb", "#f5576c", "#4facfe"] as const,
-     welcomeMessage: "Welcome! I'm your medical advisor. I can provide general health information, explain medical conditions, and offer wellness tips. Remember, I'm here for educational purposes only - always consult a healthcare professional for personal medical advice.",
-     tier: "premium",
-   },
-   {
-     id: "music",
-     name: "Music Producer",
- 
-EOF
-)
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+import { specialists } from "@/constants/specialists";
+import * as Haptics from "expo-haptics";
+import { Lock } from "lucide-react-native";
+import { useUser } from "@/providers/UserProvider";
+import { PremiumGate } from "@/components/PremiumGate";
+import { MAIN_GRADIENT, COLORS } from "@/constants/colors";
+
+export default function SpecialistsScreen() {
+  const { hasUnlimitedAccess } = useUser();
+  const [showPremiumGate, setShowPremiumGate] = useState<boolean>(false);
+  const [selectedSpecialist, setSelectedSpecialist] = useState<string>("");
+
+  const handleSpecialistPress = (specialistId: string, isFree?: boolean, tier?: string) => {
+    if (Platform.OS !== "web") {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+
+    if (!isFree && tier === "premium" && !hasUnlimitedAccess()) {
+      setSelectedSpecialist(specialistId);
+      setShowPremiumGate(true);
+      return;
+    }
+
+    router.push(`/chat/${specialistId}`);
+  };
+
+  return (
+    <LinearGradient
+      colors={MAIN_GRADIENT as any}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.header}>
+          <Text style={styles.title}>AI Specialists</Text>
+          <Text style={styles.subtitle}>Choose your expert assistant</Text>
+        </View>
+
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={Platform.OS !== "android"}
+          nestedScrollEnabled={true}
+          scrollEventThrottle={16}
+          removeClippedSubviews={Platform.OS === "android"}
+        >
+          {specialists.map((specialist) => {
+            const Icon = specialist.icon;
+            const isPremium = specialist.tier === "premium";
+            const isFree = specialist.isFree === true;
+            const isLocked = isPremium && !hasUnlimitedAccess();
+
+            return (
+              <TouchableOpacity
+                key={specialist.id}
+                style={styles.specialistCard}
+                onPress={() =>
+                  handleSpecialistPress(specialist.id, isFree, specialist.tier)
+                }
+                activeOpacity={0.9}
+              >
+                <LinearGradient
+                  colors={specialist.gradient as any}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.cardGradient}
+                >
+                  <View style={styles.cardContent}>
+                    <View style={styles.iconContainer}>
+                      <Icon size={32} color="#fff" strokeWidth={2} />
+                    </View>
+                    <View style={styles.textContent}>
+                      <View style={styles.titleRow}>
+                        <Text style={styles.specialistName}>
+                          {specialist.name}
+                        </Text>
+                        {isLocked && (
+                          <Lock size={16} color="rgba(255, 255, 255, 0.9)" />
+                        )}
+                      </View>
+                      <Text style={styles.specialistDescription}>
+                        {specialist.description}
+                      </Text>
+                      {isFree && (
+                        <View style={styles.freeBadge}>
+                          <Text style={styles.freeBadgeText}>FREE</Text>
+                        </View>
+                      )}
+                      {isPremium && (
+                        <View style={styles.premiumBadge}>
+                          <Text style={styles.premiumBadgeText}>PREMIUM</Text>
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </LinearGradient>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        <PremiumGate
+          visible={showPremiumGate}
+          onClose={() => setShowPremiumGate(false)}
+          feature="Premium AI Specialists"
+        />
+      </SafeAreaView>
+    </LinearGradient>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  header: {
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    paddingBottom: 16,
+  },
+  title: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: "rgba(255, 255, 255, 0.9)",
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 120,
+  },
+  specialistCard: {
+    marginBottom: 16,
+    borderRadius: 20,
+    overflow: "hidden",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  cardGradient: {
+    padding: 20,
+  },
+  cardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 16,
+  },
+  textContent: {
+    flex: 1,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  specialistName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#fff",
+    flex: 1,
+  },
+  specialistDescription: {
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.9)",
+    lineHeight: 20,
+    marginBottom: 8,
+  },
+  freeBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "#10B981",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  freeBadgeText: {
+    fontSize: 11,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  premiumBadge: {
+    alignSelf: "flex-start",
+    backgroundColor: "rgba(255, 255, 255, 0.25)",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  premiumBadgeText: {
+    fontSize: 11,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+});
