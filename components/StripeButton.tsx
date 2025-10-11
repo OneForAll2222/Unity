@@ -38,7 +38,7 @@ export function StripeButton({ item, onSuccess, onError, style }: StripeButtonPr
       if (Platform.OS === 'web') {
         Alert.alert(
           'Mobile Only',
-          'Stripe payments are only available on mobile devices. Please use PayPal for web payments.'
+          'Stripe payments are only available on mobile devices. Please open this project in Expo Go on iOS or Android to complete payment.'
         );
         return;
       }
