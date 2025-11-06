@@ -3,7 +3,7 @@
 - **Outline Stage:** Outline generation prompt enforces rating ceiling, original content, and explicit risk checklist. Validator checks for banned keywords (configurable), rating limit violations, and similarity scores >0.82; failure returns to Outline state.
 - **Scene Stage:** Scene drafting prompt mandates rating compliance, inclusive language, and continuity annotations. Automated safety review inspects lexical cues (violence, explicitness) and applies heuristics per rating band. Originality audit compares embeddings; if score <70, block progress.
 - **Export Stage:** Final safety pass runs copyrighted-character filter (embedding + keyword list), rating boundary verification across full manuscript, and derivative content check using multi-level similarity (project vs reference corpus). Exports require all checks = pass; otherwise reroute to revision.
-- **Copyrighted-character Filter:** Maintain curated blocklist (names, locations, signature items). Use fuzzy matching (Levenshtein distance ≤2) + embedding similarity threshold 0.75.
+- **Copyrighted-character Filter:** Maintain curated blocklist (names, locations, signature items). Use fuzzy matching (Levenshtein edit distance ratio ≤ 0.3, i.e., edit distance divided by string length) + embedding similarity threshold 0.75.
 - **Rating Boundaries:**
   - PG: no explicit violence, language, or sexual content; implied only.
   - PG-13: moderate violence, limited strong language (max 1 per scene), no explicit sexual content.
