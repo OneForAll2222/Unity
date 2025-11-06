@@ -91,7 +91,7 @@ Style Guidelines: {{style_guidelines}}
 
 Tasks:
 1. Produce 600-900 word markdown scene with headings, dialogue, and action.
-2. Include inline annotations for continuity callbacks (format: `<!-- continuity: ... -->`).
+2. Include inline annotations for continuity callbacks (format: `<!-- continuity: ... -->`), specifying relevant details such as scene references, character state, timeline markers, or other elements necessary for maintaining narrative continuity.
 3. Highlight emotional beats and POV clarity.
 4. Append JSON metadata block: {"word_count": n, "emotional_tone": "...", "rating_check": "pass|flag", "safety_notes": [...]}.
 
