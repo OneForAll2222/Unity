@@ -12,4 +12,4 @@
   - **DOCX (.docx):** Use server-side conversion (e.g., `docx` npm package). Preserve headings, emphasis, and inline annotations stripped unless flagged to keep.
   - **PDF (.pdf):** Render via headless browser (Puppeteer) using export template; include cover page, table of contents, scene headers.
   - All exports embed revision metadata (versionId, timestamp) in document properties.
-  - Export pipeline requires `Originality_Audit_v1` status = pass and `FinalSafetyPass` = pass.
+  - Export pipeline requires `Originality_Audit_v1` status = pass and `FinalSafetyPass` (a status field in the safety review schema; must be 'pass') = pass.
