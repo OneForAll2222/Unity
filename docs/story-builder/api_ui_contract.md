@@ -27,7 +27,7 @@
 | `requestOriginalityAudit` | Check originality | `/api/scenes/:id/originality` | POST | sceneId | audit result |
 | `approveScene` | Mark scene ready | `/api/scenes/:id/approve` | POST | approverId | status |
 | `prepareExport` | Trigger compilation | `/api/projects/:id/compile` | POST | export options | readiness status |
-| `downloadExport` | Get export file | `/api/projects/:id/export?format=` | GET | n/a | file stream |
+| `downloadExport` | Get export file | `/api/projects/:id/export?format=md\|docx\|pdf` | GET | n/a | file stream |
 | `listVersions` | View version timeline | `/api/projects/:id/versions` | GET | n/a | version array |
 | `restoreVersion` | Rollback entity | `/api/versions/:id/restore` | POST | entityId | restored entity |
 
