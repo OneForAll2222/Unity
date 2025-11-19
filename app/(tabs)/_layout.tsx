@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Home, BookOpen, User } from "lucide-react-native";
+import { Home, BookOpen, User, MessageCircle } from "lucide-react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
@@ -151,6 +151,11 @@ const TAB_CONFIG = [
     name: "specialists" as const,
     title: "Specialists",
     icon: Home,
+  },
+  {
+    name: "assistant" as const,
+    title: "Assistant",
+    icon: MessageCircle,
   },
   {
     name: "learning" as const,
